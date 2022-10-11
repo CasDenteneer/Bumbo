@@ -1,6 +1,6 @@
 ﻿namespace BumboPOC.Models
 {
-    public class Prognosis
+    public class PrognosisDepartment
     {
         public Department department { get; set; }
 
@@ -8,7 +8,7 @@
         public int MinutesToBeScheduled { get; set; }
 
         // constructor 
-        public Prognosis(Department department, int hoursToBeScheduled)
+        public PrognosisDepartment(Department department, int hoursToBeScheduled)
         {
             this.department = department;
             MinutesToBeScheduled = hoursToBeScheduled;

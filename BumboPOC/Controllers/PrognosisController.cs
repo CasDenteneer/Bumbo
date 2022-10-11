@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BumboPOC.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BumboPOC.Controllers
@@ -8,7 +9,24 @@ namespace BumboPOC.Controllers
         // GET: PrognosisController
         public ActionResult Index()
         {
-            return View();
+            // prognosis test data in region:
+            #region
+
+            PrognosisDay prognosis1 = new PrognosisDay(10, 10, new DateTime(2020, 1, 1));
+            PrognosisDay prognosis2 = new PrognosisDay(20, 20, new DateTime(2020, 1, 2));
+            PrognosisDay prognosis3 = new PrognosisDay(30, 30, new DateTime(2020, 1, 3));
+            PrognosisDay prognosis4 = new PrognosisDay(40, 40, new DateTime(2020, 1, 4));
+            PrognosisDay prognosis5 = new PrognosisDay(50, 50, new DateTime(2020, 1, 5));
+
+            List<PrognosisDay> prognosisList = new List<PrognosisDay>();
+            prognosisList.Add(prognosis1);
+            prognosisList.Add(prognosis2);
+            prognosisList.Add(prognosis3);
+            prognosisList.Add(prognosis4);
+            prognosisList.Add(prognosis5);
+            #endregion
+
+            return View(prognosisList);
         }
 
         // GET: PrognosisController/Details/5

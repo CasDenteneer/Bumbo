@@ -1,6 +1,6 @@
 ﻿namespace BumboPOC.Models
 {
-    public class PrognosisInput
+    public class PrognosisDay
     {
         //  id
         public int Id { get; set; }
@@ -11,9 +11,9 @@
 
         public DateTime Date { get; set; }
 
-        public Prognosis CassiereDepartment { get; set; }
-        public Prognosis FreshDepartment { get; set; }
-        public Prognosis StockersDepartment { get; set; }
+        public PrognosisDepartment CassiereDepartment { get; set; }
+        public PrognosisDepartment FreshDepartment { get; set; }
+        public PrognosisDepartment StockersDepartment { get; set; }
 
         public void updatePrognosis()
         {
@@ -24,17 +24,21 @@
         }
 
         // constructor without id
-        public PrognosisInput(int amountOfCollies, int amountOfCustomers, DateTime date)
+        public PrognosisDay(int amountOfCollies, int amountOfCustomers, DateTime date)
         {
             AmountOfCollies = amountOfCollies;
             AmountOfCustomers = amountOfCustomers;
             Date = date;
-            CassiereDepartment = new Prognosis(Department.Cassiere, 0);
-            FreshDepartment = new Prognosis(Department.Fresh, 0);
-            StockersDepartment = new Prognosis(Department.Stocker, 0);
+            CassiereDepartment = new PrognosisDepartment(Department.Cassiere, 0);
+            FreshDepartment = new PrognosisDepartment(Department.Fresh, 0);
+            StockersDepartment = new PrognosisDepartment(Department.Stocker, 0);
             updatePrognosis();
         }
 
+
+    
+        
+        
 
 
 
