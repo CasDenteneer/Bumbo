@@ -22,10 +22,21 @@
             StockersDepartment.MinutesToBeScheduled = (Norm.StockingTimePerCollieMinutes * AmountOfCollies) +
                 (Norm.CollieUnloadTimePerCollieMinutes * AmountOfCollies);
         }
-        
+
         // constructor without id
-        
-        
-        
+        public PrognosisInput(int amountOfCollies, int amountOfCustomers, DateTime date)
+        {
+            AmountOfCollies = amountOfCollies;
+            AmountOfCustomers = amountOfCustomers;
+            Date = date;
+            CassiereDepartment = new Prognosis(Department.Cassiere, 0);
+            FreshDepartment = new Prognosis(Department.Fresh, 0);
+            StockersDepartment = new Prognosis(Department.Stocker, 0);
+            updatePrognosis();
+        }
+
+
+
+
     }
 }
