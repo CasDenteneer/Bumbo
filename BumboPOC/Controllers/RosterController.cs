@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BumboPOC.Controllers
 {
-    public class PrognosisController : Controller
+    public class RosterController : Controller
     {
 
         List<PrognosisDay> PrognosisList = new List<PrognosisDay>();
-        
-        public PrognosisController()
+
+        public RosterController()
         {
-            
+
             // prognosis test data in region:
             #region
 
@@ -28,39 +28,29 @@ namespace BumboPOC.Controllers
             PrognosisList.Add(prognosis4);
             PrognosisList.Add(prognosis5);
             #endregion
-
         }
-
-        // GET: PrognosisController
-        public ActionResult Index()
+        
+        
+            // GET: Roster
+            public ActionResult Index()
         {
-           
-
+            
             return View(PrognosisList);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Index(List<PrognosisDay> prognosisList)
-        {
-            PrognosisList = prognosisList;
-            return View(PrognosisList);
-        }
-
-
-        // GET: PrognosisController/Details/5
+        // GET: Roster/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: PrognosisController/Create
+        // GET: Roster/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: PrognosisController/Create
+        // POST: Roster/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -75,13 +65,13 @@ namespace BumboPOC.Controllers
             }
         }
 
-        // GET: PrognosisController/Edit/5
+        // GET: Roster/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: PrognosisController/Edit/5
+        // POST: Roster/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -96,13 +86,13 @@ namespace BumboPOC.Controllers
             }
         }
 
-        // GET: PrognosisController/Delete/5
+        // GET: Roster/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: PrognosisController/Delete/5
+        // POST: Roster/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

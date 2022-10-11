@@ -4,11 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Prognosis input</h1>
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+ Nog in te roosteren minuten:
 <table class="table">
     <thead>
         <tr>
@@ -16,11 +17,15 @@
                 Datum
             </th>
             <th>
-                Aantal verwachte collies
+               Kassa afdeling
             </th>
             <th>
-                Aantal verwachte klanten
+                Vers afdeling
             </th>
+            <th>
+                Vakkenvuller afdeling
+            </th>
+     
             <th></th>
         </tr>
     </thead>
@@ -31,19 +36,16 @@
                     @item.Date.ToShortDateString()
             </td>
             <td>
-                @Html.EditorFor(model => item.AmountOfCollies)
-                   
+                    @Html.DisplayFor(modelItem => item.CassiereDepartment.MinutesToBeScheduled) Minuten 
             </td>
             <td>
-                @Html.EditorFor(model => item.AmountOfCustomers)
+                    @Html.DisplayFor(modelItem => item.FreshDepartment.MinutesToBeScheduled) Minuten
             </td>
-        
+            <td>
+                    @Html.DisplayFor(modelItem => item.StockersDepartment.MinutesToBeScheduled) Minuten
+             </td>
+            
         </tr>
 }
-
-        <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary" />
-        </div>
-
     </tbody>
 </table>
