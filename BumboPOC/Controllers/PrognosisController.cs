@@ -15,11 +15,12 @@ namespace BumboPOC.Controllers
             // prognosis test data in region:
             #region
 
-            PrognosisDay prognosis1 = new PrognosisDay(10, 10, new DateTime(2020, 1, 1));
-            PrognosisDay prognosis2 = new PrognosisDay(20, 20, new DateTime(2020, 1, 2));
-            PrognosisDay prognosis3 = new PrognosisDay(30, 30, new DateTime(2020, 1, 3));
-            PrognosisDay prognosis4 = new PrognosisDay(40, 40, new DateTime(2020, 1, 4));
-            PrognosisDay prognosis5 = new PrognosisDay(50, 50, new DateTime(2020, 1, 5));
+            PrognosisDay prognosis1 = new PrognosisDay(100, 50, new DateTime(2020, 1, 1));
+            PrognosisDay prognosis2 = new PrognosisDay(200, 60, new DateTime(2020, 1, 2));
+            PrognosisDay prognosis3 = new PrognosisDay(300, 80, new DateTime(2020, 1, 3));
+            PrognosisDay prognosis4 = new PrognosisDay(400, 120, new DateTime(2020, 1, 4));
+            PrognosisDay prognosis5 = new PrognosisDay(500, 150, new DateTime(2020, 1, 5));
+
 
 
             PrognosisList.Add(prognosis1);
@@ -34,8 +35,6 @@ namespace BumboPOC.Controllers
         // GET: PrognosisController
         public ActionResult Index()
         {
-           
-
             return View(PrognosisList);
         }
 

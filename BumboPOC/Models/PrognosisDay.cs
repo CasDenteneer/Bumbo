@@ -11,16 +11,28 @@
 
         public DateTime Date { get; set; }
 
-        public PrognosisDepartment CassiereDepartment { get; set; }
-        public PrognosisDepartment FreshDepartment { get; set; }
-        public PrognosisDepartment StockersDepartment { get; set; }
+        public double CassiereDepartment { get; set; }
+        public double FreshDepartment { get; set; }
+        public double StockersDepartment { get; set; }
 
         public void updatePrognosis()
         {
-            CassiereDepartment.MinutesToBeScheduled = Norm.CassiereTimePerCustomerMinutes * AmountOfCustomers;
-            FreshDepartment.MinutesToBeScheduled = Norm.FreshDepartmentTimePerCustomerMinutes * AmountOfCustomers;
-            StockersDepartment.MinutesToBeScheduled = (Norm.StockingTimePerCollieMinutes * AmountOfCollies) +
-                (Norm.CollieUnloadTimePerCollieMinutes * AmountOfCollies);
+            // convert to hours
+            TimeSpan TotalTimeCassierre = TimeSpan.FromMinutes(Norm.CassiereTimePerCustomerMinutes * AmountOfCustomers);
+            TimeSpan TotalTimeFresh = TimeSpan.FromMinutes(Norm.FreshDepartmentTimePerCustomerMinutes * AmountOfCustomers);
+            TimeSpan TotalTimeStockers = TimeSpan.FromMinutes((Norm.StockingTimePerCollieMinutes * AmountOfCollies) +
+                (Norm.CollieUnloadTimePerCollieMinutes * AmountOfCollies));
+
+            CassiereDepartment = TotalTimeCassierre.TotalHours;
+            FreshDepartment = TotalTimeStockers.TotalHours;
+            StockersDepartment = TotalTimeStockers.TotalHours;
+
+
+            CassiereDepartment = MinutsTohHours(Norm.CassiereTimePerCustomerMinutes * AmountOfCustomers);
+            FreshDepartment = MinutsTohHours(Norm.FreshDepartmentTimePerCustomerMinutes * AmountOfCustomers);
+            StockersDepartment = MinutsTohHours((Norm.StockingTimePerCollieMinutes * AmountOfCollies) +
+                (Norm.CollieUnloadTimePerCollieMinutes * AmountOfCollies));
+            
         }
 
         // constructor without id
@@ -29,18 +41,20 @@
             AmountOfCollies = amountOfCollies;
             AmountOfCustomers = amountOfCustomers;
             Date = date;
-            CassiereDepartment = new PrognosisDepartment(Department.Cassiere, 0);
-            FreshDepartment = new PrognosisDepartment(Department.Fresh, 0);
-            StockersDepartment = new PrognosisDepartment(Department.Stocker, 0);
             updatePrognosis();
         }
 
 
-    
-        
-        
-
-
+        public double MinutsTohHours(double Minutes)
+        {
+            // converts from minutes to hours, rounding the minutes
+            double Temp = 0;
+            Temp = ((double)(Minutes % 60) / 100);
+            var n = (double)Minutes / 60;
+            return Math.Floor((double)Minutes / 60) + Temp;
+        }
 
     }
+    
+    
 }

@@ -18,9 +18,10 @@
         public static int CollieUnloadTimePerCollieMinutes = 5;  
         public static int StockingTimePerCollieMinutes = 30;
         public static int CassiereTimePerCustomerMinutes = 2;
-        public static int FreshDepartmentTimePerCustomerMinutes = 1;
+        public static double FreshDepartmentTimePerCustomerMinutes = 1.6;
         public static int ArrangingShelfsTimePerMeterMinutes = 30;
         
+      
         
         
 
