@@ -1,16 +1,34 @@
-﻿namespace BumboPOC.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BumboPOC.Models
 {
     public class Employee
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Name { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string FirstName { get; set; }
+        [Required]
+        [StringLength(25)]
+        public string MiddleName { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string LastName { get; set; }
+
+        [Required]
         public string Department { get; set; }
 
 
         // constructor without id
-        public Employee(string name, string department)
+        public Employee(string firstName, string middleName, string lastName, string department)
         {
-            Name = name;
+            FirstName = firstName;
+            MiddleName = middleName;
+            LastName = lastName;
             Department = department;
         }
 

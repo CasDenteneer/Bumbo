@@ -1,12 +1,21 @@
-﻿namespace BumboPOC.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BumboPOC.Models
 {
     public class PrognosisDay
     {
         //  id
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        
         //  amount of collies and customers, given by the prognosis_input
+        [Required]
+        [Range(0, 50000)]
         public int AmountOfCollies { get; set; }
-
+        [Range(0, 50000)]
+        [Required]
         public int AmountOfCustomers { get; set; }
 
         public DateTime Date { get; set; }
