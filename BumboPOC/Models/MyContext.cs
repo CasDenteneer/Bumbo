@@ -8,5 +8,6 @@ namespace BumboPOC.Models
         public DbSet<Employee> Employees { get; set; }
         public DbSet<PrognosisDay> Prognosis { get; set; }
         
+
     }
 }

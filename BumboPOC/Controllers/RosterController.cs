@@ -1,5 +1,5 @@
-﻿using BumboPOC.Models;
-using Microsoft.AspNetCore.Http;
+﻿
+using BumboPOC.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BumboPOC.Controllers
@@ -7,27 +7,12 @@ namespace BumboPOC.Controllers
     public class RosterController : Controller
     {
 
-        List<PrognosisDay> PrognosisList = new List<PrognosisDay>();
+        private readonly MyContext _MyContext;
 
-        public RosterController()
+        public RosterController(MyContext myContext)
         {
-
-            // prognosis test data in region:
-            #region
-
-            PrognosisDay prognosis1 = new PrognosisDay(10, 100, new DateTime(2020, 1, 1));
-            PrognosisDay prognosis2 = new PrognosisDay(20, 200, new DateTime(2020, 1, 2));
-            PrognosisDay prognosis3 = new PrognosisDay(30, 300, new DateTime(2020, 1, 3));
-            PrognosisDay prognosis4 = new PrognosisDay(40, 400, new DateTime(2020, 1, 4));
-            PrognosisDay prognosis5 = new PrognosisDay(50, 500, new DateTime(2020, 1, 5));
-
-
-            PrognosisList.Add(prognosis1);
-            PrognosisList.Add(prognosis2);
-            PrognosisList.Add(prognosis3);
-            PrognosisList.Add(prognosis4);
-            PrognosisList.Add(prognosis5);
-            #endregion
+            _MyContext = myContext;
+         
         }
         
         
@@ -35,7 +20,7 @@ namespace BumboPOC.Controllers
             public ActionResult Index()
         {
             
-            return View(PrognosisList);
+            return View(_MyContext.Prognosis.ToList());
         }
 
         // GET: Roster/Details/5

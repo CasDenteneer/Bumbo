@@ -9,6 +9,10 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<div class="form-group">
+    <input type="submit" value="Save" class="btn btn-primary" />
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -25,25 +29,29 @@
         </tr>
     </thead>
     <tbody>
+        
 @foreach (var item in Model) {
         <tr>
             <td>
                     @item.Date.ToShortDateString()
             </td>
             <td>
-                @Html.EditorFor(model => item.AmountOfCollies)
+                    <div class="form-group">
+                        <input asp-for=@item.AmountOfCollies class="form-control" />
+                        <span asp-validation-for=@item.AmountOfCollies class="text-danger"></span>
+                    </div>
                    
             </td>
             <td>
-                @Html.EditorFor(model => item.AmountOfCustomers)
+                    <div class="form-group">
+                        <input asp-for=@item.AmountOfCustomers class="form-control" />
+                        <span asp-validation-for=@item.AmountOfCustomers class="text-danger"></span>
+                    </div>
             </td>
         
         </tr>
 }
 
-        <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary" />
-        </div>
 
     </tbody>
 </table>
