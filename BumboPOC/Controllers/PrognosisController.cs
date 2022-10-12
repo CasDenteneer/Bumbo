@@ -6,12 +6,14 @@ namespace BumboPOC.Controllers
 {
     public class PrognosisController : Controller
     {
-
+        private readonly MyContext _MyContext;
         List<PrognosisDay> PrognosisList = new List<PrognosisDay>();
         
-        public PrognosisController()
+        public PrognosisController(MyContext myContext)
         {
-            
+            _MyContext = myContext;
+
+
             // prognosis test data in region:
             #region
 
