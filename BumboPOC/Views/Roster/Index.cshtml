@@ -1,0 +1,51 @@
+﻿@model IEnumerable<BumboPOC.Models.PrognosisDay>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+ Nog in te roosteren minuten:
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Datum
+            </th>
+            <th>
+               Kassa afdeling
+            </th>
+            <th>
+                Vers afdeling
+            </th>
+            <th>
+                Vakkenvuller afdeling
+            </th>
+     
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @item.Date.ToShortDateString()
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.CassiereDepartment) Uren 
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.FreshDepartment) Uren
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.StockersDepartment) Uren
+             </td>
+            
+        </tr>
+}
+    </tbody>
+</table>

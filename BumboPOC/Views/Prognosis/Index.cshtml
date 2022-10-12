@@ -1,0 +1,49 @@
+﻿@model IEnumerable<BumboPOC.Models.PrognosisDay>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Prognosis input</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Datum
+            </th>
+            <th>
+                Aantal verwachte collies
+            </th>
+            <th>
+                Aantal verwachte klanten
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @item.Date.ToShortDateString()
+            </td>
+            <td>
+                @Html.EditorFor(model => item.AmountOfCollies)
+                   
+            </td>
+            <td>
+                @Html.EditorFor(model => item.AmountOfCustomers)
+            </td>
+        
+        </tr>
+}
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+
+    </tbody>
+</table>
