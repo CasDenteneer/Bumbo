@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BumboPOC.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20221012200718_PrognosisIndexAdd")]
-    partial class PrognosisIndexAdd
+    [Migration("20221013225908_EmployeeDepartmentKeyFix1")]
+    partial class EmployeeDepartmentKeyFix1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,22 @@ namespace BumboPOC.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("BumboPOC.Models.Departments", b =>
+                {
+                    b.Property<int>("DepartmentsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentsId"), 1L, 1);
+
+                    b.Property<int>("Department")
+                        .HasColumnType("int");
+
+                    b.HasKey("DepartmentsId");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("BumboPOC.Models.Employee", b =>
                 {
                     b.Property<int>("Id")
@@ -32,9 +48,21 @@ namespace BumboPOC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Department")
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("BankNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -47,7 +75,6 @@ namespace BumboPOC.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("MiddleName")
-                        .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
@@ -88,6 +115,36 @@ namespace BumboPOC.Migrations
                         .IsUnique();
 
                     b.ToTable("Prognosis");
+                });
+
+            modelBuilder.Entity("DepartmentsEmployee", b =>
+                {
+                    b.Property<int>("DepartmentsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DepartmentsId", "EmployeesId");
+
+                    b.HasIndex("EmployeesId");
+
+                    b.ToTable("DepartmentsEmployee");
+                });
+
+            modelBuilder.Entity("DepartmentsEmployee", b =>
+                {
+                    b.HasOne("BumboPOC.Models.Departments", null)
+                        .WithMany()
+                        .HasForeignKey("DepartmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BumboPOC.Models.Employee", null)
+                        .WithMany()
+                        .HasForeignKey("EmployeesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

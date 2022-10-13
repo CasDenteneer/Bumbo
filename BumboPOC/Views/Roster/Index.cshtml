@@ -89,6 +89,9 @@
                     <tr>
                         <td>
                             @employee.FullName
+                            @foreach(var department in employee.Departments){
+                                <p>@DepartmentEnumExtension.GetDutchNames(department.Department)</p>
+                            }
                         </td>
                         @for (int i = 0; i < 24; i++)
                         {

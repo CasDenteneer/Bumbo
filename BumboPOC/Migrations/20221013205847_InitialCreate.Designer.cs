@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BumboPOC.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20221013175738_EmployeeFirstAdds")]
-    partial class EmployeeFirstAdds
+    [Migration("20221013205847_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,12 +27,15 @@ namespace BumboPOC.Migrations
             modelBuilder.Entity("BumboPOC.Models.Departments", b =>
                 {
                     b.Property<int>("EmployeeId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"), 1L, 1);
 
                     b.Property<int>("Department")
                         .HasColumnType("int");
 
-                    b.HasKey("EmployeeId", "Department");
+                    b.HasKey("EmployeeId");
 
                     b.ToTable("Departments");
                 });
@@ -117,33 +120,30 @@ namespace BumboPOC.Migrations
 
             modelBuilder.Entity("DepartmentsEmployee", b =>
                 {
-                    b.Property<int>("EmployeesId")
-                        .HasColumnType("int");
-
                     b.Property<int>("DepartmentsEmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DepartmentsDepartment")
+                    b.Property<int>("EmployeesId")
                         .HasColumnType("int");
 
-                    b.HasKey("EmployeesId", "DepartmentsEmployeeId", "DepartmentsDepartment");
+                    b.HasKey("DepartmentsEmployeeId", "EmployeesId");
 
-                    b.HasIndex("DepartmentsEmployeeId", "DepartmentsDepartment");
+                    b.HasIndex("EmployeesId");
 
                     b.ToTable("DepartmentsEmployee");
                 });
 
             modelBuilder.Entity("DepartmentsEmployee", b =>
                 {
-                    b.HasOne("BumboPOC.Models.Employee", null)
+                    b.HasOne("BumboPOC.Models.Departments", null)
                         .WithMany()
-                        .HasForeignKey("EmployeesId")
+                        .HasForeignKey("DepartmentsEmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BumboPOC.Models.Departments", null)
+                    b.HasOne("BumboPOC.Models.Employee", null)
                         .WithMany()
-                        .HasForeignKey("DepartmentsEmployeeId", "DepartmentsDepartment")
+                        .HasForeignKey("EmployeesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

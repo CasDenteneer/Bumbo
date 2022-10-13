@@ -1,6 +1,9 @@
 ﻿
 using BumboPOC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Specialized;
+using System.Linq;
 
 namespace BumboPOC.Controllers
 {
@@ -35,9 +38,19 @@ namespace BumboPOC.Controllers
                 prognosis.AmountOfCustomers = 0;
             }
             RosterDay roster = new RosterDay(prognosis);
-
+            // join employees with the department 
             roster.AvailableEmployees = _MyContext.Employees.ToList();
+            foreach (Employee e in roster.AvailableEmployees)
+            {
+                // get the departments for the employees
+                e.Departments = _MyContext.Departments.Where(d => d.EmployeeId == e.Id).ToList();
+                
+            }
+            var listD = _MyContext.Departments.ToList();
+            if(listD != null)
+            {
 
+            }
             return View(roster);
            
         }

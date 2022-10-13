@@ -5,9 +5,13 @@ namespace BumboPOC.Models
 {
     public class Departments
     {
-        
-        public int EmployeeId { get; set; }
+        //[Key]
+        //public int DepartmentsId { get; set; }
+
+        [Key]
+        public int EmployeeId {   get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
+        [EnumDataType(typeof(DepartmentEnum))]
         public DepartmentEnum Department { get; set; }
 
         // constructor
@@ -15,7 +19,7 @@ namespace BumboPOC.Models
         {
             EmployeeId = employeeId;
             Department = department;
-            Employees = new HashSet<Employee>();
+            
         }
 
         public Departments()

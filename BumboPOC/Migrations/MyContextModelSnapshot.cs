@@ -24,13 +24,16 @@ namespace BumboPOC.Migrations
 
             modelBuilder.Entity("BumboPOC.Models.Departments", b =>
                 {
-                    b.Property<int>("EmployeeId")
+                    b.Property<int>("DepartmentsId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentsId"), 1L, 1);
 
                     b.Property<int>("Department")
                         .HasColumnType("int");
 
-                    b.HasKey("EmployeeId", "Department");
+                    b.HasKey("DepartmentsId");
 
                     b.ToTable("Departments");
                 });
@@ -70,7 +73,6 @@ namespace BumboPOC.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("MiddleName")
-                        .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
@@ -115,33 +117,30 @@ namespace BumboPOC.Migrations
 
             modelBuilder.Entity("DepartmentsEmployee", b =>
                 {
+                    b.Property<int>("DepartmentsId")
+                        .HasColumnType("int");
+
                     b.Property<int>("EmployeesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DepartmentsEmployeeId")
-                        .HasColumnType("int");
+                    b.HasKey("DepartmentsId", "EmployeesId");
 
-                    b.Property<int>("DepartmentsDepartment")
-                        .HasColumnType("int");
-
-                    b.HasKey("EmployeesId", "DepartmentsEmployeeId", "DepartmentsDepartment");
-
-                    b.HasIndex("DepartmentsEmployeeId", "DepartmentsDepartment");
+                    b.HasIndex("EmployeesId");
 
                     b.ToTable("DepartmentsEmployee");
                 });
 
             modelBuilder.Entity("DepartmentsEmployee", b =>
                 {
-                    b.HasOne("BumboPOC.Models.Employee", null)
+                    b.HasOne("BumboPOC.Models.Departments", null)
                         .WithMany()
-                        .HasForeignKey("EmployeesId")
+                        .HasForeignKey("DepartmentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BumboPOC.Models.Departments", null)
+                    b.HasOne("BumboPOC.Models.Employee", null)
                         .WithMany()
-                        .HasForeignKey("DepartmentsEmployeeId", "DepartmentsDepartment")
+                        .HasForeignKey("EmployeesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

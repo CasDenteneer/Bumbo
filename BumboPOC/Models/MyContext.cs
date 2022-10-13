@@ -12,11 +12,21 @@ namespace BumboPOC.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Employee has many departments
+            // Employee has many departments and set keys
             modelBuilder.Entity<Employee>()
                      .HasMany(e => e.Departments)
-                     .WithMany(e => e.Employees);
-            modelBuilder.Entity<Departments>().HasKey(e => new { e.EmployeeId, e.Department });
+                     .WithMany(d => d.Employees);
+            modelBuilder.Entity<Departments>()
+                 .HasMany(d => d.Employees)
+                 .WithMany(e => e.Departments);
+            
+
+
+
+
+
+
+
         }
 
     }
