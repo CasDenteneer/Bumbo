@@ -11,7 +11,6 @@ namespace BumboPOC.Controllers
 
         public RosterController()
         {
-
             // prognosis test data in region:
             #region
 
@@ -31,10 +30,9 @@ namespace BumboPOC.Controllers
         }
         
         
-            // GET: Roster
-            public ActionResult Index()
-        {
-            
+        // GET: Roster
+        public ActionResult Index()
+        {       
             return View(PrognosisList);
         }
 
