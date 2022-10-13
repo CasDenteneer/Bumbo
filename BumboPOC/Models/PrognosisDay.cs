@@ -16,13 +16,16 @@ namespace BumboPOC.Models
         //  amount of collies and customers, given by the prognosis_input
         [Required]
         [Range(0, 50000)]
+        [ModelBinder]
         public int AmountOfCollies { get; set; }
         [Range(0, 50000)]
         [Required]
+        [ModelBinder]
         public int AmountOfCustomers { get; set; }
         // date is unique in database, since you only have one prognosis per day.
         //[DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}")]
         [DataType(DataType.Date)]
+        [ModelBinder]
         public DateTime Date { get; set; }
 
         public double? CassiereDepartment { get; set; }

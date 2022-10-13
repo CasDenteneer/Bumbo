@@ -17,19 +17,15 @@ namespace BumboPOC.Controllers
 
         // GET: PrognosisController
         public ActionResult Index()
-        {
-
+        { 
             return View(_MyContext.Prognosis.Where(p => p.Date >= DateTime.Now).ToList());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(IFormCollection collection)
+        public ActionResult Index(List<PrognosisDay> prognosisList)
         {
-            if(collection == null)
-            {
-                return View();
-            }
+
             return View(_MyContext.Prognosis.ToList());
         }
 
@@ -43,6 +39,13 @@ namespace BumboPOC.Controllers
         // GET: PrognosisController/Create
         public ActionResult Create()
         {
+            if(_MyContext.Prognosis.OrderByDescending(p => p.Date).FirstOrDefault() != null)
+            {
+                PrognosisDay prognosis = _MyContext.Prognosis.OrderByDescending(p => p.Date).First();
+                prognosis.Date = prognosis.Date.AddDays(1);
+                
+                return View(prognosis);
+            }
             return View();
         }
 
@@ -72,14 +75,28 @@ namespace BumboPOC.Controllers
         // GET: PrognosisController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            // get item based on id
+            return View(_MyContext.Prognosis.Where(p => p.Id == id).FirstOrDefault());
         }
 
         // POST: PrognosisController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, PrognosisDay prognosis)
         {
+            var dbprognosis = _MyContext.Prognosis.Where(p => p.Id == id).FirstOrDefault();
+            if (dbprognosis != null)
+            {
+                dbprognosis.AmountOfCollies = prognosis.AmountOfCollies;
+                dbprognosis.AmountOfCustomers = prognosis.AmountOfCustomers;
+                _MyContext.Prognosis.Update(dbprognosis);
+            }
+            if (_MyContext.ChangeTracker.HasChanges())
+            {
+                _MyContext.SaveChanges();
+            }
+
+
             try
             {
                 return RedirectToAction(nameof(Index));

@@ -19,8 +19,9 @@ namespace BumboPOC.Controllers
             // GET: Roster
             public ActionResult Index()
         {
-            
-            return View(_MyContext.Prognosis.ToList());
+            // get prognosis for today
+
+            return View();
         }
 
         // GET: Roster/Details/5

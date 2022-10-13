@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-
+<form>
 <div class="form-group">
     <input type="submit" value="Save" class="btn btn-primary" />
 </div>
@@ -32,26 +32,26 @@
         
 @foreach (var item in Model) {
         <tr>
+                   
             <td>
                     @item.Date.ToShortDateString()
-            </td>
-            <td>
-                    <div class="form-group">
-                        <input asp-for=@item.AmountOfCollies class="form-control" />
-                        <span asp-validation-for=@item.AmountOfCollies class="text-danger"></span>
-                    </div>
                    
             </td>
             <td>
-                    <div class="form-group">
-                        <input asp-for=@item.AmountOfCustomers class="form-control" />
-                        <span asp-validation-for=@item.AmountOfCustomers class="text-danger"></span>
-                    </div>
+                    @item.AmountOfCollies
+                   
             </td>
-        
+            <td>
+                    @item.AmountOfCustomers
+            </td>
+            <td>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Prognosis" asp-route-id="@item.Id" asp-action="Edit">Edit</a>
+            </td>
+                   
         </tr>
 }
 
 
     </tbody>
 </table>
+</form>
