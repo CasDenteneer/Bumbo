@@ -91,6 +91,9 @@ namespace BumboPOC.Controllers
                 dbprognosis.AmountOfCustomers = prognosis.AmountOfCustomers;
                 _MyContext.Prognosis.Update(dbprognosis);
             }
+
+
+            
             if (_MyContext.ChangeTracker.HasChanges())
             {
                 _MyContext.SaveChanges();

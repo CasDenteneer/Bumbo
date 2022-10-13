@@ -1,6 +1,6 @@
 ﻿namespace BumboPOC.Models
 {
-    public enum Department
+    public enum DepartmentEnum
     {
         Cassiere,
         Fresh,

@@ -17,7 +17,7 @@ namespace BumboPOC.Models
         [DataType(DataType.Date)]
         public DateTime EndTime { get; set; }
         [Required]
-        public Department Department { get; set; }
+        public DepartmentEnum Department { get; set; }
 
     }
 }

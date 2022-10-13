@@ -42,21 +42,7 @@ namespace BumboPOC.Controllers
            
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Index(DateTime id, int i)
-        {
-            Console.WriteLine("testsssssssssssssssssssssssssssssss");
-            PrognosisDay? prognosis = _MyContext.Prognosis.Where(p => p.Date == id.Date).FirstOrDefault();
-
-
-            if (prognosis != null)
-            {
-                return View(prognosis);
-            }
-            return View();
-        }
-
+       
 
         // GET: Roster/Details/5
         public ActionResult Details(int id)
