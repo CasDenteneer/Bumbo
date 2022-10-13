@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BumboPOC.Models.PrognosisDay>
+﻿@model RosterDay
 
 @{
     ViewData["Title"] = "Index";
@@ -6,48 +6,112 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
- Nog in te roosteren minuten:
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Datum
-            </th>
-            <th>
-               Kassa afdeling
-            </th>
-            <th>
-                Vers afdeling
-            </th>
-            <th>
-                Vakkenvuller afdeling
-            </th>
-     
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                    @item.Date.ToShortDateString()
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.CassiereDepartment) Uren 
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.FreshDepartment) Uren
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.StockersDepartment) Uren
-             </td>
-            <td>
-                
-            </td>
-        </tr>
-}
-    </tbody>
+<div class="d-flex justify-content-between m-4 border rounded-2">
+    <button class="btn btn-outline-primary">
+        <a class="text-decoration-none"  asp-action="Index" asp-route-dateInput="@Model.Date.AddDays(-1).Date"> Vorige dag </a>
+    </button>
+    
+    <p>Week @Model.GetWeekNumber(Model.Date) | @Html.DisplayFor(model => model.Date) </p>
+
+    <button class="btn btn-outline-primary">
+        <a class="text-decoration-none" asp-action="Index" asp-route-dateInput="@Model.Date.AddDays(1).Date"> Volgende dag </a>
+    </button>
+    
+
+</div>
+
+
+
+<div>
+    <button btn btn-outline-secondary>
+        <a class="text-decoration-none" asp-action="Edit" asp-controller="Prognosis" asp-route-id="@Model?.PrognosisDay.Id">(Edit prognose) Nog te roosterde uren: </a>
+    </button>
+    
+</div>
+
+<div >
+
+    <dl class="row border" >
+        <div class="border col-sm d-flex justify-content-center flex-nowrap">
+            
+            <dt >
+                @Html.DisplayNameFor(model => model.PrognosisDay.CassiereDepartment) : 
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PrognosisDay.CassiereDepartment) Uren
+            </dd>
+        </div>
+
+        <div class="border col-sm d-flex justify-content-center flex-nowrap">
+            <dt>
+                @Html.DisplayNameFor(model => model.PrognosisDay.FreshDepartment) : 
+            </dt>
+            <dd >
+                @Html.DisplayFor(model => model.PrognosisDay.FreshDepartment) Uren
+            </dd>
+        </div >
+
+        <div class="border col-sm d-flex justify-content-center flex-nowrap">
+            <dt>
+                @Html.DisplayNameFor(model => model.PrognosisDay.StockersDepartment) : 
+            </dt>
+            <dd >
+                @Html.DisplayFor(model => model.PrognosisDay.StockersDepartment) Uren
+            </dd>
+        </div>
+       
+        
+       
+    </dl>
+</div>
+
+<div>
+    <!--table, 24 long horizontal -->
+    <table class="table">
+        <thead>
+            <tr>
+                @for (int i = 0; i < 25; i++)
+                {
+                    <th>@i</th>
+                }
+            </tr>
+        </thead>
+
+
+
+
+     <tbody>
+            <!--For each available employee, create a row-->
+            @if (Model.AvailableEmployees != null)
+            {
+                foreach (var employee in Model.AvailableEmployees)
+                {
+                    <tr>
+                        <td>
+                            @employee.FullName
+                        </td>
+                        @for (int i = 0; i < 24; i++)
+                        {
+                            <td>
+  
+                                    <input type="checkbox" />
+                                
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+
+</tbody>
 </table>
+</div>
+
+                    <!--                              
+                        if (employee.RosterHours.Any(x => x.Hour == i))
+                                {
+                                    <input type="checkbox" checked="checked" />
+                                }
+                                else
+                                { 
+                                }
+                   -->

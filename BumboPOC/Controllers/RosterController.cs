@@ -17,12 +17,46 @@ namespace BumboPOC.Controllers
         
         
             // GET: Roster
-            public ActionResult Index()
-        {
-            // get prognosis for today
+            public ActionResult Index(string? dateInput)
+            {
+            if(dateInput == null)
+            {
+                dateInput = DateTime.Today.ToString();
+            }
+            DateTime newDate = DateTime.Parse(dateInput);
 
+            PrognosisDay? prognosis = _MyContext.Prognosis.Where(p => p.Date == newDate.Date).FirstOrDefault();
+
+            if (prognosis == null)
+            {
+                prognosis = new PrognosisDay();
+                prognosis.Date = newDate;
+                prognosis.AmountOfCollies = 0;
+                prognosis.AmountOfCustomers = 0;
+            }
+            RosterDay roster = new RosterDay(prognosis);
+
+            roster.AvailableEmployees = _MyContext.Employees.ToList();
+
+            return View(roster);
+           
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(DateTime id, int i)
+        {
+            Console.WriteLine("testsssssssssssssssssssssssssssssss");
+            PrognosisDay? prognosis = _MyContext.Prognosis.Where(p => p.Date == id.Date).FirstOrDefault();
+
+
+            if (prognosis != null)
+            {
+                return View(prognosis);
+            }
             return View();
         }
+
 
         // GET: Roster/Details/5
         public ActionResult Details(int id)

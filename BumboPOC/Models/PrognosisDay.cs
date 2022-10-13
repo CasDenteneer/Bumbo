@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 
 namespace BumboPOC.Models
 {
@@ -23,13 +25,15 @@ namespace BumboPOC.Models
         [ModelBinder]
         public int AmountOfCustomers { get; set; }
         // date is unique in database, since you only have one prognosis per day.
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}")]
         [DataType(DataType.Date)]
         [ModelBinder]
         public DateTime Date { get; set; }
 
+        [DisplayName("Kassa Afdeling")]
         public double? CassiereDepartment { get; set; }
+        [DisplayName("Vers Afdeling")]
         public double? FreshDepartment { get; set; }
+        [DisplayName("VakkenVullers Afdeling")]
         public double? StockersDepartment { get; set; }
 
         public void updatePrognosis()
@@ -66,6 +70,9 @@ namespace BumboPOC.Models
         {
             this.updatePrognosis();
         }
+
+       
+
     }
     
     

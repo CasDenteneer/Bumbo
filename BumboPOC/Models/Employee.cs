@@ -19,6 +19,15 @@ namespace BumboPOC.Models
         [StringLength(50)]
         public string LastName { get; set; }
 
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                { return FirstName + " " + MiddleName +  " " + LastName; }
+            }
+        }
+        
         [Required]
         public string Department { get; set; }
 
