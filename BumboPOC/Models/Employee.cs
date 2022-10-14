@@ -47,6 +47,9 @@ namespace BumboPOC.Models
         // Employee can have multiple departments
         public virtual ICollection<Departments> Departments { get; set; }
 
+        public virtual ICollection<PlannedShift> PlannedShifts { get; set; }
+
+        #region bools for departments
         [NotMapped]
         [Display(Name = "Vers afdeling")]
         public bool FreshDepartmentEnum { get; set; }
@@ -56,6 +59,7 @@ namespace BumboPOC.Models
         [NotMapped]
         [Display(Name = "Vakkenvullers afdeling")]
         public bool StockersDepartment { get; set; }
+        #endregion
 
         // constructor without id
         public Employee(string firstName, string middleName, string lastName, DateTime birthDate, string email, bool active, string bankNumber)
@@ -64,6 +68,7 @@ namespace BumboPOC.Models
             MiddleName = middleName;
             LastName = lastName;
             Departments = new HashSet<Departments>();
+            PlannedShifts = new HashSet<PlannedShift>();
             BirthDate = birthDate;
             Email = email;
             Active = active;
@@ -75,6 +80,7 @@ namespace BumboPOC.Models
             FirstName = firstName;
             LastName = lastName;
             Departments = new HashSet<Departments>();
+            PlannedShifts = new HashSet<PlannedShift>();
             BirthDate = birthDate;
             Email = email;
             Active = active;
@@ -89,6 +95,7 @@ namespace BumboPOC.Models
             FirstName = firstName;
             LastName = lastName;
             Departments = new HashSet<Departments>();
+            PlannedShifts = new HashSet<PlannedShift>();
             BirthDate = birthDate;
             Email = email;
             Active = active;
@@ -97,7 +104,9 @@ namespace BumboPOC.Models
 
         public Employee()
         {
+            
             Departments = new HashSet<Departments>();
+            PlannedShifts = new HashSet<PlannedShift>();
         }
 
 

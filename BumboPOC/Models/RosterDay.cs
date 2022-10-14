@@ -14,16 +14,22 @@
 
         public PrognosisDay PrognosisDay { get; set; }
         // list of employees
-        public List<Employee>? AvailableEmployees { get; set; }
+        public List<Employee> AvailableEmployees { get; set; }
 
 
-        public List<Employee>? AssignedEmployees { get; set; }
+        public List<Employee> AssignedEmployees { get; set; }
 
         // constructor 
         public RosterDay(PrognosisDay prognosisDay)
         {
             PrognosisDay = prognosisDay;
             Date = prognosisDay.Date;
+            AvailableEmployees = new List<Employee>();
+            AssignedEmployees = new List<Employee>();
+        }
+        public RosterDay()
+        {
+            PrognosisDay = new PrognosisDay();
             AvailableEmployees = new List<Employee>();
             AssignedEmployees = new List<Employee>();
         }
@@ -37,3 +43,6 @@
 
     }
 }
+
+
+    

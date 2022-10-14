@@ -8,6 +8,7 @@ namespace BumboPOC.Models
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Departments> Departments { get; set; }
         public DbSet<PrognosisDay> Prognosis { get; set; }
+        public DbSet<PlannedShift> PlannedShift { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -19,9 +20,19 @@ namespace BumboPOC.Models
             modelBuilder.Entity<Departments>()
                  .HasMany(d => d.Employees)
                  .WithMany(e => e.Departments);
-            
+
+            modelBuilder.Entity<Employee>()
+                .HasMany(e => e.PlannedShifts)
+                .WithOne(p => p.Employee);
 
 
+            modelBuilder.Entity<PlannedShift>()
+                .HasOne(p => p.Employee)
+                .WithMany(e => e.PlannedShifts);
+
+            modelBuilder.Entity<PlannedShift>()
+                .HasOne(p => p.PrognosisDay)
+                .WithMany(p => p.PlannedShifts);
 
 
 

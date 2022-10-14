@@ -1,6 +1,7 @@
 ﻿using BumboPOC.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BumboPOC.Controllers
 {
@@ -17,8 +18,11 @@ namespace BumboPOC.Controllers
 
         // GET: PrognosisController
         public ActionResult Index()
-        { 
+        {
+            
+
             return View(_MyContext.Prognosis.Where(p => p.Date >= DateTime.Now).ToList());
+
         }
 
         [HttpPost]

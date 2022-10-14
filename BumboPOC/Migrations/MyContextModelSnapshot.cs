@@ -24,16 +24,16 @@ namespace BumboPOC.Migrations
 
             modelBuilder.Entity("BumboPOC.Models.Departments", b =>
                 {
-                    b.Property<int>("DepartmentsId")
+                    b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentsId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"), 1L, 1);
 
                     b.Property<int>("Department")
                         .HasColumnType("int");
 
-                    b.HasKey("DepartmentsId");
+                    b.HasKey("EmployeeId");
 
                     b.ToTable("Departments");
                 });
@@ -81,6 +81,38 @@ namespace BumboPOC.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("BumboPOC.Models.PlannedShift", b =>
+                {
+                    b.Property<int>("ShiftId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShiftId"), 1L, 1);
+
+                    b.Property<int>("Department")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PrognosisId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ShiftId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("PrognosisId");
+
+                    b.ToTable("PlannedShift");
+                });
+
             modelBuilder.Entity("BumboPOC.Models.PrognosisDay", b =>
                 {
                     b.Property<int>("Id")
@@ -117,24 +149,43 @@ namespace BumboPOC.Migrations
 
             modelBuilder.Entity("DepartmentsEmployee", b =>
                 {
-                    b.Property<int>("DepartmentsId")
+                    b.Property<int>("DepartmentsEmployeeId")
                         .HasColumnType("int");
 
                     b.Property<int>("EmployeesId")
                         .HasColumnType("int");
 
-                    b.HasKey("DepartmentsId", "EmployeesId");
+                    b.HasKey("DepartmentsEmployeeId", "EmployeesId");
 
                     b.HasIndex("EmployeesId");
 
                     b.ToTable("DepartmentsEmployee");
                 });
 
+            modelBuilder.Entity("BumboPOC.Models.PlannedShift", b =>
+                {
+                    b.HasOne("BumboPOC.Models.Employee", "Employee")
+                        .WithMany("PlannedShifts")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BumboPOC.Models.PrognosisDay", "PrognosisDay")
+                        .WithMany("PlannedShifts")
+                        .HasForeignKey("PrognosisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("PrognosisDay");
+                });
+
             modelBuilder.Entity("DepartmentsEmployee", b =>
                 {
                     b.HasOne("BumboPOC.Models.Departments", null)
                         .WithMany()
-                        .HasForeignKey("DepartmentsId")
+                        .HasForeignKey("DepartmentsEmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -143,6 +194,16 @@ namespace BumboPOC.Migrations
                         .HasForeignKey("EmployeesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BumboPOC.Models.Employee", b =>
+                {
+                    b.Navigation("PlannedShifts");
+                });
+
+            modelBuilder.Entity("BumboPOC.Models.PrognosisDay", b =>
+                {
+                    b.Navigation("PlannedShifts");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BumboPOC.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,7 +29,7 @@ namespace BumboPOC.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    MiddleName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    MiddleName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -83,10 +83,49 @@ namespace BumboPOC.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PlannedShift",
+                columns: table => new
+                {
+                    ShiftId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    PrognosisId = table.Column<int>(type: "int", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Department = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlannedShift", x => x.ShiftId);
+                    table.ForeignKey(
+                        name: "FK_PlannedShift_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PlannedShift_Prognosis_PrognosisId",
+                        column: x => x.PrognosisId,
+                        principalTable: "Prognosis",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_DepartmentsEmployee_EmployeesId",
                 table: "DepartmentsEmployee",
                 column: "EmployeesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlannedShift_EmployeeId",
+                table: "PlannedShift",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlannedShift_PrognosisId",
+                table: "PlannedShift",
+                column: "PrognosisId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Prognosis_Date",
@@ -101,13 +140,16 @@ namespace BumboPOC.Migrations
                 name: "DepartmentsEmployee");
 
             migrationBuilder.DropTable(
-                name: "Prognosis");
+                name: "PlannedShift");
 
             migrationBuilder.DropTable(
                 name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Prognosis");
         }
     }
 }

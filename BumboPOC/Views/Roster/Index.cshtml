@@ -66,6 +66,16 @@
 </div>
 
 <div>
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <form>
+            <div class="form-group">
+                <button class="btn btn-outline-primary">
+                    <a type="submit" class="text-decoration-none" asp-action="Index" asp-route-department=""> Update rooster </a>
+                </button>
+
+            </div>
+        </form>
+    </div>
     <!--table, 24 long horizontal -->
     <table class="table">
         <thead>
@@ -79,8 +89,31 @@
 
 
 
-
      <tbody>
+
+         <tr>
+                <td>
+                 <form>
+
+                        <select id="DepartmentSelect" class="form-select" aria-label="Default select example">
+                            <option selected value="1">@DepartmentEnumExtension.GetDutchNames(DepartmentEnum.Fresh)</option>
+                            <option value="2">@DepartmentEnumExtension.GetDutchNames(DepartmentEnum.Cassiere)</option>
+                            <option value="3">@DepartmentEnumExtension.GetDutchNames(DepartmentEnum.Stocker)</option>
+                        </select>
+
+
+                        <div class="form-group">
+                            <button class="btn btn-outline-primary">
+                            <a type="submit" class="text-decoration-none" asp-action="Index" asp-route-department=""> Sorteer op afdeling </a>
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                   
+             </td>
+         </tr>
             <!--For each available employee, create a row-->
             @if (Model.AvailableEmployees != null)
             {
@@ -89,32 +122,40 @@
                     <tr>
                         <td>
                             @employee.FullName
-                            @foreach(var department in employee.Departments){
-                                <p>@DepartmentEnumExtension.GetDutchNames(department.Department)</p>
-                            }
+                          
                         </td>
                         @for (int i = 0; i < 24; i++)
                         {
                             <td>
-  
+
+                            @if (Model.AssignedEmployees.Contains(employee)  && employee.PlannedShifts.Where(p => p.StartTime.Date == Model.Date.Date).Count() > 0)
+                                    {
+
+
+                                    if (employee.PlannedShifts.Where(e => e.StartTime.Hour == i).Count() > 0){
+                                      
+                                        <input type="checkbox" checked />
+                                        }else{
+                                        <input type="checkbox" />
+                                        }
+                                        
+
+                                }else{
                                     <input type="checkbox" />
+                                }
+                                    
                                 
                             </td>
                         }
+                        <td>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Roster" asp-route-employeeId="@employee.Id" asp-route-prognosisId="@Model.PrognosisDay.Id" asp-action="Create">Voeg dienst toe</a>
+                        </td>
                     </tr>
                 }
             }
 
 </tbody>
 </table>
-</div>
+    
 
-                    <!--                              
-                        if (employee.RosterHours.Any(x => x.Hour == i))
-                                {
-                                    <input type="checkbox" checked="checked" />
-                                }
-                                else
-                                { 
-                                }
-                   -->
+</div>

@@ -23,7 +23,7 @@ public static class DepartmentEnumExtension
             case DepartmentEnum.Fresh:
                 return "Vers";
             case DepartmentEnum.Stocker:
-                return "Voorraad";
+                return "VakkenVuller";
             default:
                 return "Onbekend";
         }

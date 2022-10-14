@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Numerics;
 
 namespace BumboPOC.Controllers
 {
@@ -38,19 +39,12 @@ namespace BumboPOC.Controllers
                 prognosis.AmountOfCustomers = 0;
             }
             RosterDay roster = new RosterDay(prognosis);
-            // join employees with the department 
-            roster.AvailableEmployees = _MyContext.Employees.ToList();
-            foreach (Employee e in roster.AvailableEmployees)
-            {
-                // get the departments for the employees
-                e.Departments = _MyContext.Departments.Where(d => d.EmployeeId == e.Id).ToList();
-                
-            }
-            var listD = _MyContext.Departments.ToList();
-            if(listD != null)
-            {
+            var employeesAll = _MyContext.Employees.Include(e => e.Departments).ToList();
+            roster.AvailableEmployees = employeesAll;
 
-            }
+            // get the employees that have been scheduled on the day already
+            roster.AssignedEmployees = _MyContext.Employees.Include(e => e.PlannedShifts).ToList();
+
             return View(roster);
            
         }
@@ -64,24 +58,44 @@ namespace BumboPOC.Controllers
         }
 
         // GET: Roster/Create
-        public ActionResult Create()
+        public ActionResult Create(int employeeId, int prognosisId)
         {
-            return View();
+            PlannedShift plannedShift = new PlannedShift();
+            try
+            {
+                plannedShift.Employee = _MyContext.Employees.Find(employeeId);
+                plannedShift.PrognosisDay = _MyContext.Prognosis.Find(prognosisId);
+                plannedShift.StartTime = plannedShift.PrognosisDay.Date.AddHours(8);
+                plannedShift.EndTime = plannedShift.StartTime.Date.AddHours(14);
+                plannedShift.EmployeeId = employeeId;
+                plannedShift.PrognosisId = prognosisId;
+            }
+            catch
+            {
+                return NotFound();
+            }
+            return View(plannedShift);
         }
 
         // POST: Roster/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(PlannedShift plannedShift)
         {
             try
             {
+                plannedShift.Employee = _MyContext.Employees.Find(plannedShift.EmployeeId);
+                plannedShift.PrognosisDay = _MyContext.Prognosis.Find(plannedShift.PrognosisId);
+                _MyContext.PlannedShift.Add(plannedShift);
+                _MyContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch 
             {
                 return View();
             }
+
+
         }
 
         // GET: Roster/Edit/5

@@ -14,7 +14,10 @@ namespace BumboPOC.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
+
+        public virtual ICollection<PlannedShift>? PlannedShifts { get; set; }
+
+
         //  amount of collies and customers, given by the prognosis_input
         [Required]
         [Range(0, 50000)]
@@ -52,6 +55,7 @@ namespace BumboPOC.Models
             AmountOfCollies = amountOfCollies;
             AmountOfCustomers = amountOfCustomers;
             Date = date;
+            PlannedShifts = new HashSet<PlannedShift>();
             updatePrognosis();
         }
 
