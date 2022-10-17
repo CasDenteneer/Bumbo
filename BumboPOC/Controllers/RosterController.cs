@@ -44,7 +44,7 @@ namespace BumboPOC.Controllers
 
             // get the employees that have been scheduled on the day already
             roster.AssignedEmployees = _MyContext.Employees.Include(e => e.PlannedShifts).ToList();
-
+            
             return View(roster);
            
         }

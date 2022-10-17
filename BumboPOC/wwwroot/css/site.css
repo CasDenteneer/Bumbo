@@ -16,3 +16,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.roster-hidden {
+    display: none;
+}
+
+.roster-item:hover + .roster-hidden {
+    display: block;
+    color: red;
+}

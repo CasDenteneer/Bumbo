@@ -1,4 +1,6 @@
-﻿namespace BumboPOC.Models
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+namespace BumboPOC.Models
 {
     public class RosterDay
     {
@@ -40,6 +42,33 @@
             return System.Globalization.CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(date, System.Globalization.CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
 
+        
+        public bool IsPlanned(Employee employee, int hour)
+        {
+            if (AssignedEmployees.Contains(employee) != true)
+            {
+                return false;
+            }
+            if (employee.PlannedShifts == null)
+            {
+                return false;
+            }
+
+            foreach (PlannedShift plannedShift in employee.PlannedShifts)
+            {
+                if (plannedShift.PrognosisDay.Date == Date)
+                {
+                    // if the employee is scheduled on the day and the hour is between the start and end time of the shift return true
+                    if (plannedShift.StartTime.Hour <= hour && plannedShift.EndTime.Hour > hour)
+                    {
+                        return true;
+                    }
+                }
+               
+            }
+            return false;
+        }
+        
 
     }
 }
