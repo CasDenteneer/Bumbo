@@ -1,4 +1,7 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.ComponentModel;
+using System.Drawing;
+using System.Numerics;
 
 namespace BumboPOC.Models
 {
@@ -20,6 +23,20 @@ namespace BumboPOC.Models
 
 
         public List<Employee> AssignedEmployees { get; set; }
+
+
+
+        [DisplayName("Kassa Afdeling")]
+        public double? CassiereDepartment
+        {
+            get { return PrognosisDay.CassiereDepartment; }
+        }
+
+        [DisplayName("Vers Afdeling")]
+        public double? FreshDepartment { get; set; }
+        [DisplayName("VakkenVullers Afdeling")]
+        public double? StockersDepartment { get; set; }
+
 
         // constructor 
         public RosterDay(PrognosisDay prognosisDay)
@@ -68,6 +85,39 @@ namespace BumboPOC.Models
             }
             return false;
         }
+
+        public DepartmentEnum GetEmployeeDepartmentShift(Employee employee, int hour)
+        {
+
+            if (AssignedEmployees.Contains(employee) != true)
+            {
+                return DepartmentEnum.None;
+            }
+            if (employee.PlannedShifts == null)
+            {
+                return DepartmentEnum.None;
+            }
+
+            foreach (PlannedShift plannedShift in employee.PlannedShifts)
+            {
+                if (plannedShift.PrognosisDay.Date == Date)
+                {
+                    // if the employee is scheduled on the day and the hour is between the start and end time of the shift return true
+                    if (plannedShift.StartTime.Hour <= hour && plannedShift.EndTime.Hour > hour)
+                    {
+                        // for each department return a html color code
+
+
+                        return plannedShift.Department;
+                        //return DepartmentEnumExtension.GetDutchNames(plannedShift.Department);
+                    }
+                }
+
+            }
+            return DepartmentEnum.None;
+        }
+
+        
         
 
     }

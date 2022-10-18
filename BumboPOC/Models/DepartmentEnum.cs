@@ -6,8 +6,8 @@ namespace BumboPOC.Models
     {
         Cassiere = 0,
         Fresh = 1,
-        Stocker = 2
-
+        Stocker = 2,
+        None = 3
 
     }
 }

@@ -6,6 +6,8 @@
 
 <h1>Index</h1>
 
+
+
 <div class="d-flex justify-content-between m-4 border rounded-2">
     <button class="btn btn-outline-primary">
         <a class="text-decoration-none"  asp-action="Index" asp-route-dateInput="@Model.Date.AddDays(-1).Date"> Vorige dag </a>
@@ -80,7 +82,7 @@
     <table class="table">
         <thead>
             <tr>
-                @for (int i = 0; i < 25; i++)
+                @for (int i = 7; i < 25; i++)
                 {
                     <th>@i</th>
                 }
@@ -124,33 +126,41 @@
                             @employee.FullName
                           
                         </td>
-                        @for (int i = 0; i < 24; i++)
+                        @for (int i = 7; i < 24; i++)
                         {
                             <td>
 
                            @if (Model.IsPlanned(employee, i))
                                 {
-
-                                     
-                                     <div class="roster-item" style="background-color: green ; padding: 10px; border: 1px solid black;"> 
-                                        
-                                     </div>
-                                      <div class="roster-hidden">
-                                             <p>hi</p>
-                                         </div>
+                                    switch (Model.GetEmployeeDepartmentShift(employee, i))
+                                    {
+                                        case DepartmentEnum.Cassiere:
+                                            <div style="background-color: yellow ; padding: 10px; border: 1px solid black;">
+                                            </div>
+                                            break;
+                                        case DepartmentEnum.Fresh:
+                                            <div style="background-color: green ; padding: 10px; border: 1px solid black;">
+                                            </div>
+                                            break;
+                                        case DepartmentEnum.Stocker:
+                                            <div style="background-color: brown ; padding: 10px; border: 1px solid black;">
+                                            </div>
+                                            break;
+                                        default:
+                                            <div style="background-color: black ; padding: 10px; border: 1px solid black;">
+                                            </div>
+                                            break;
+                                    }
                                 }else{
-                                    <div class="roster-item" style="background-color: black ; padding: 10px; border: 1px solid black;">                                   
-                                        </div>
-                                     <div class="roster-hidden">
-                                            
-                                        </div>
+                                    <div style="background-color: black ; padding: 10px; border: 1px solid black;">
+                                    </div>
                                 }
      
                                 
                             </td>
                         }
                         <td>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Roster" asp-route-employeeId="@employee.Id" asp-route-prognosisId="@Model.PrognosisDay.Id" asp-action="Create">Voeg dienst toe</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Roster" asp-route-employeeId="@employee.Id" asp-route-prognosisId="@Model.PrognosisDay.Id"  asp-route-dateInput="@Model.Date.ToShortDateString()" asp-action="Create">Voeg dienst toe</a>
                         </td>
                     </tr>
                 }
@@ -158,6 +168,6 @@
 
 </tbody>
 </table>
-    
 
 </div>
+

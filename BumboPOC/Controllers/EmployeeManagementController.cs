@@ -22,6 +22,7 @@ namespace BumboPOC.Controllers
         {
             Employee e = new Employee();
             e.Departments.Add(new Departments());
+            e.BirthDate = DateTime.Now.AddYears(-20);
             return View(e);
         }
 

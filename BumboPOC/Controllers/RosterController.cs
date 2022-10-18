@@ -58,13 +58,21 @@ namespace BumboPOC.Controllers
         }
 
         // GET: Roster/Create
-        public ActionResult Create(int employeeId, int prognosisId)
+        public ActionResult Create(int employeeId, int prognosisId, string dateInput)
         {
             PlannedShift plannedShift = new PlannedShift();
             try
             {
-                plannedShift.Employee = _MyContext.Employees.Find(employeeId);
+                plannedShift.Employee = _MyContext.Employees.Include(e => e.Departments).Where(e => e.Id == employeeId).FirstOrDefault();
                 plannedShift.PrognosisDay = _MyContext.Prognosis.Find(prognosisId);
+                if (plannedShift.PrognosisDay == null)
+                {
+                    PrognosisDay prognosisDay = new PrognosisDay();
+                    prognosisDay.AmountOfCustomers = 1000;
+                    prognosisDay.AmountOfCollies = 100;
+                    prognosisDay.Date = DateTime.Parse(dateInput);
+                    plannedShift.PrognosisDay = prognosisDay;
+                }
                 plannedShift.StartTime = plannedShift.PrognosisDay.Date.AddHours(8);
                 plannedShift.EndTime = plannedShift.StartTime.Date.AddHours(14);
                 plannedShift.EmployeeId = employeeId;
@@ -86,6 +94,7 @@ namespace BumboPOC.Controllers
             {
                 plannedShift.Employee = _MyContext.Employees.Find(plannedShift.EmployeeId);
                 plannedShift.PrognosisDay = _MyContext.Prognosis.Find(plannedShift.PrognosisId);
+                
                 _MyContext.PlannedShift.Add(plannedShift);
                 _MyContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
