@@ -78,13 +78,38 @@
             </div>
         </form>
     </div>
+
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div style="background-color: yellow ; padding: 10px; border: 1px solid black;">
+            <p class="text-white bg-dark">Kassa afdeling</p>
+        </div>
+        <div style="background-color: green ; padding: 10px; border: 1px solid black;">
+            <p class="text-white bg-dark">Vers afdeling</p>
+        </div>
+        <div style="background-color: brown ; padding: 10px; border: 1px solid black;">
+            <p class="text-white bg-dark">Vakken vuller afdeling</p>
+        </div>
+        <div style="background-color: black ; padding: 10px; border: 1px solid black;">
+            <p class="text-white bg-dark">Niet ingepland</p>
+        </div>
+
+    </div>
+
+   
+
+
     <!--table, 24 long horizontal -->
     <table class="table">
         <thead>
             <tr>
                 @for (int i = 7; i < 25; i++)
                 {
-                    <th>@i</th>
+                    if(i == 7){
+                        <th>Werknemer Naam</th>
+                    }else{
+                        <th>@i</th>
+                    }
+                    
                 }
             </tr>
         </thead>
@@ -93,29 +118,6 @@
 
      <tbody>
 
-         <tr>
-                <td>
-                 <form>
-
-                        <select id="DepartmentSelect" class="form-select" aria-label="Default select example">
-                            <option selected value="1">@DepartmentEnumExtension.GetDutchNames(DepartmentEnum.Fresh)</option>
-                            <option value="2">@DepartmentEnumExtension.GetDutchNames(DepartmentEnum.Cassiere)</option>
-                            <option value="3">@DepartmentEnumExtension.GetDutchNames(DepartmentEnum.Stocker)</option>
-                        </select>
-
-
-                        <div class="form-group">
-                            <button class="btn btn-outline-primary">
-                            <a type="submit" class="text-decoration-none" asp-action="Index" asp-route-department=""> Sorteer op afdeling </a>
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                   
-             </td>
-         </tr>
             <!--For each available employee, create a row-->
             @if (Model.AvailableEmployees != null)
             {

@@ -24,18 +24,8 @@ namespace BumboPOC.Models
 
         public List<Employee> AssignedEmployees { get; set; }
 
+     
 
-
-        [DisplayName("Kassa Afdeling")]
-        public double? CassiereDepartment
-        {
-            get { return PrognosisDay.CassiereDepartment; }
-        }
-
-        [DisplayName("Vers Afdeling")]
-        public double? FreshDepartment { get; set; }
-        [DisplayName("VakkenVullers Afdeling")]
-        public double? StockersDepartment { get; set; }
 
 
         // constructor 
@@ -51,6 +41,7 @@ namespace BumboPOC.Models
             PrognosisDay = new PrognosisDay();
             AvailableEmployees = new List<Employee>();
             AssignedEmployees = new List<Employee>();
+            
         }
 
 
@@ -117,10 +108,24 @@ namespace BumboPOC.Models
             return DepartmentEnum.None;
         }
 
-        
-        
+        public double UpdatePrognosis(DepartmentEnum department, List<PlannedShift> PlannedShifts)
+        {
+            double totalHours = 0;
+            foreach (var planned in PlannedShifts)
+            {
+                if (planned.Department == department)
+                {
+                    TimeSpan timespan= planned.EndTime - planned.StartTime;
+                    totalHours = totalHours + timespan.TotalHours;
+                }
+            }
+            return totalHours;
+        }
 
     }
+        
+
+    
 }
 
 

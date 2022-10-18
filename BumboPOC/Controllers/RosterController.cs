@@ -44,7 +44,9 @@ namespace BumboPOC.Controllers
 
             // get the employees that have been scheduled on the day already
             roster.AssignedEmployees = _MyContext.Employees.Include(e => e.PlannedShifts).ToList();
-            
+            // get all planned shifts on that day
+
+            roster.PrognosisDay.UpdatePrognosis(_MyContext.PlannedShift.Where(p => p.PrognosisDay.Date == newDate).ToList());
             return View(roster);
            
         }
@@ -94,7 +96,15 @@ namespace BumboPOC.Controllers
             {
                 plannedShift.Employee = _MyContext.Employees.Find(plannedShift.EmployeeId);
                 plannedShift.PrognosisDay = _MyContext.Prognosis.Find(plannedShift.PrognosisId);
-                
+                if (plannedShift.PrognosisDay == null)
+                { 
+                    PrognosisDay prognosisDay = new PrognosisDay();
+                    prognosisDay.AmountOfCustomers = 1000;
+                    prognosisDay.AmountOfCollies = 100;
+                    prognosisDay.Date = plannedShift.StartTime.Date;
+                    plannedShift.PrognosisDay = prognosisDay;
+
+                }
                 _MyContext.PlannedShift.Add(plannedShift);
                 _MyContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
