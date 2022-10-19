@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class=" col-sm d-flex justify-content-center flex-nowrap">Rooster</h1>
 
 
 
@@ -13,7 +13,7 @@
         <a class="text-decoration-none"  asp-action="Index" asp-route-dateInput="@Model.Date.AddDays(-1).Date"> Vorige dag </a>
     </button>
     
-    <p>Week @Model.GetWeekNumber(Model.Date) | @Html.DisplayFor(model => model.Date) </p>
+    <p>Week @Model.GetWeekNumber(Model.Date) | @Model.Date.ToShortDateString() </p>
 
     <button class="btn btn-outline-primary">
         <a class="text-decoration-none" asp-action="Index" asp-route-dateInput="@Model.Date.AddDays(1).Date"> Volgende dag </a>
@@ -79,18 +79,20 @@
         </form>
     </div>
 
+    <div class="border border-1" style="background-color: white;">
+
     <div class="h-100 d-flex align-items-center justify-content-center">
         <div style="background-color: yellow ; padding: 10px; border: 1px solid black;">
-            <p class="text-white bg-dark">Kassa afdeling</p>
+            <p class="fw-bolder">Kassa afdeling</p>
         </div>
         <div style="background-color: green ; padding: 10px; border: 1px solid black;">
-            <p class="text-white bg-dark">Vers afdeling</p>
+            <p class="fw-bolder">Vers afdeling</p>
         </div>
         <div style="background-color: brown ; padding: 10px; border: 1px solid black;">
-            <p class="text-white bg-dark">Vakken vuller afdeling</p>
+            <p class="fw-bolder">Vakken vuller afdeling</p>
         </div>
-        <div style="background-color: black ; padding: 10px; border: 1px solid black;">
-            <p class="text-white bg-dark">Niet ingepland</p>
+        <div style="background-color: white ; padding: 10px; border: 1px solid black;">
+            <p class="fw-bolder">Niet ingepland</p>
         </div>
 
     </div>
@@ -99,17 +101,14 @@
 
 
     <!--table, 24 long horizontal -->
-    <table class="table">
+    <table class="table" style="background-color: white;">
         <thead>
-            <tr>
+            <tr style="width: 4%;">
+                <th>Werknemer Naam</th>
                 @for (int i = 7; i < 25; i++)
                 {
-                    if(i == 7){
-                        <th>Werknemer Naam</th>
-                    }else{
-                        <th>@i</th>
-                    }
-                    
+
+                    <th >@i</th>
                 }
             </tr>
         </thead>
@@ -123,43 +122,38 @@
             {
                 foreach (var employee in Model.AvailableEmployees)
                 {
-                    <tr>
-                        <td>
+                    <tr style ="width: 4%;">
+                        <td >
                             @employee.FullName
                           
                         </td>
                         @for (int i = 7; i < 24; i++)
                         {
-                            <td>
+                           
 
                            @if (Model.IsPlanned(employee, i))
                                 {
                                     switch (Model.GetEmployeeDepartmentShift(employee, i))
                                     {
                                         case DepartmentEnum.Cassiere:
-                                            <div style="background-color: yellow ; padding: 10px; border: 1px solid black;">
-                                            </div>
+                                        <td style="width: 4%; background-color: yellow ; padding: 10px; border: 1px solid darkgrey;"> </td>
                                             break;
                                         case DepartmentEnum.Fresh:
-                                            <div style="background-color: green ; padding: 10px; border: 1px solid black;">
-                                            </div>
+                                        <td style="width: 4%; background-color: green ; padding: 10px; border: 1px solid darkgrey;"> </td>
                                             break;
                                         case DepartmentEnum.Stocker:
-                                            <div style="background-color: brown ; padding: 10px; border: 1px solid black;">
-                                            </div>
+                                        <td style="width: 4%; background-color: brown ; padding: 10px; border: 1px solid darkgrey;"> </td>
                                             break;
                                         default:
-                                            <div style="background-color: black ; padding: 10px; border: 1px solid black;">
-                                            </div>
+                                        <td style="width: 4%; background-color: white ; padding: 10px; border: 1px solid darkgrey;"> </td>
                                             break;
                                     }
                                 }else{
-                                    <div style="background-color: black ; padding: 10px; border: 1px solid black;">
-                                    </div>
+                                <td style=" width: 4%; background-color: white ; padding: 10px; border: 1px solid darkgrey;"> </td>
                                 }
      
                                 
-                            </td>
+            
                         }
                         <td>
                             <a class="nav-link text-dark" asp-area="" asp-controller="Roster" asp-route-employeeId="@employee.Id" asp-route-prognosisId="@Model.PrognosisDay.Id"  asp-route-dateInput="@Model.Date.ToShortDateString()" asp-action="Create">Voeg dienst toe</a>
@@ -170,6 +164,8 @@
 
 </tbody>
 </table>
+
+    </div>
 
 </div>
 
