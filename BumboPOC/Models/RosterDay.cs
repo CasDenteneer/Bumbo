@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using BumboPOC.Models.DatabaseModels;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.ComponentModel;
 using System.Drawing;
 using System.Numerics;

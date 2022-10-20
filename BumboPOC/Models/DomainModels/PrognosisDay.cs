@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 
-namespace BumboPOC.Models
+namespace BumboPOC.Models.DatabaseModels
 {
-    [Index(nameof(PrognosisDay.Date), IsUnique = true)]
+    [Index(nameof(Date), IsUnique = true)]
     public class PrognosisDay
     {
         //  id
@@ -44,8 +44,8 @@ namespace BumboPOC.Models
             // convert to hours
             CassiereDepartment = MinutsTohHours(Norm.CassiereTimePerCustomerMinutes * AmountOfCustomers);
             FreshDepartment = MinutsTohHours(Norm.FreshDepartmentTimePerCustomerMinutes * AmountOfCustomers);
-            StockersDepartment = MinutsTohHours((Norm.StockingTimePerCollieMinutes * AmountOfCollies) +
-                (Norm.CollieUnloadTimePerCollieMinutes * AmountOfCollies));
+            StockersDepartment = MinutsTohHours(Norm.StockingTimePerCollieMinutes * AmountOfCollies +
+                Norm.CollieUnloadTimePerCollieMinutes * AmountOfCollies);
 
         }
 
@@ -64,7 +64,7 @@ namespace BumboPOC.Models
         {
             // converts from minutes to hours, rounding the minutes
             double Temp = 0;
-            Temp = ((double)(Minutes % 60) / 100);
+            Temp = (double)(Minutes % 60) / 100;
             var n = (double)Minutes / 60;
             return Math.Floor((double)Minutes / 60) + Temp;
         }
@@ -72,7 +72,7 @@ namespace BumboPOC.Models
 
         public PrognosisDay()
         {
-            this.updatePrognosis();
+            updatePrognosis();
         }
 
         public double UpdatePrognosis(List<PlannedShift> PlannedShifts)
@@ -80,7 +80,7 @@ namespace BumboPOC.Models
             double totalHours = 0;
             foreach (var planned in PlannedShifts)
             {
-                if(planned.PrognosisDay.Date == Date)
+                if (planned.PrognosisDay.Date == Date)
                 {
                     TimeSpan time = planned.EndTime - planned.StartTime;
                     // reduce the value in the department by the time
@@ -99,7 +99,7 @@ namespace BumboPOC.Models
                             break;
                     }
                 }
-                
+
             }
             return totalHours;
         }
@@ -108,6 +108,6 @@ namespace BumboPOC.Models
 
 
     }
-    
-    
+
+
 }

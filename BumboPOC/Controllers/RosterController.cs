@@ -1,5 +1,6 @@
 ﻿
 using BumboPOC.Models;
+using BumboPOC.Models.DatabaseModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Specialized;

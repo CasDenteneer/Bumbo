@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BumboPOC.Models
+namespace BumboPOC.Models.DatabaseModels
 {
     public class Departments
     {
@@ -9,7 +9,7 @@ namespace BumboPOC.Models
         //public int DepartmentsId { get; set; }
 
         [Key]
-        public int EmployeeId {   get; set; }
+        public int EmployeeId { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
         [EnumDataType(typeof(DepartmentEnum))]
         public DepartmentEnum Department { get; set; }
@@ -19,14 +19,14 @@ namespace BumboPOC.Models
         {
             EmployeeId = employeeId;
             Department = department;
-            
+
         }
 
         public Departments()
         {
-            
-           Employees = new HashSet<Employee>();
-            
+
+            Employees = new HashSet<Employee>();
+
         }
 
 

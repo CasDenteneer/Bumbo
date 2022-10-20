@@ -3,7 +3,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BumboPOC.Models
+namespace BumboPOC.Models.DatabaseModels
 {
     public class PlannedShift
     {
@@ -26,7 +26,7 @@ namespace BumboPOC.Models
         [Required]
         public DepartmentEnum Department { get; set; }
 
-        
+
 
         public PlannedShift(int employeeId, DateTime startTime, DateTime endTime, DepartmentEnum department)
         {

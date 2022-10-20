@@ -1,4 +1,5 @@
 ﻿using BumboPOC.Models;
+using BumboPOC.Models.DatabaseModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BumboPOC.Controllers

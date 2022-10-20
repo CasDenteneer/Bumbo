@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BumboPOC.Models
+namespace BumboPOC.Models.DatabaseModels
 {
     public class Employee
     {
@@ -24,7 +24,7 @@ namespace BumboPOC.Models
         {
             get
             {
-                { return FirstName + " " + MiddleName +  " " + LastName; }
+                { return FirstName + " " + MiddleName + " " + LastName; }
             }
         }
 
@@ -104,7 +104,7 @@ namespace BumboPOC.Models
 
         public Employee()
         {
-            
+
             Departments = new HashSet<Departments>();
             PlannedShifts = new HashSet<PlannedShift>();
         }
