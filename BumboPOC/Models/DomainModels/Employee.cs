@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BumboPOC.Models.DatabaseModels
+namespace BumboPOC.Models.DomainModels
 {
     public class Employee
     {
@@ -18,17 +18,8 @@ namespace BumboPOC.Models.DatabaseModels
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
+     
 
-        [NotMapped]
-        public string FullName
-        {
-            get
-            {
-                { return FirstName + " " + MiddleName + " " + LastName; }
-            }
-        }
-
-        // birthdate, email, bool active employee, bank number
         [Required]
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
@@ -44,12 +35,19 @@ namespace BumboPOC.Models.DatabaseModels
         [Display(Name = "Bank number")]
         public string BankNumber { get; set; }
 
-        // Employee can have multiple departments
+        
+        // Employee can have multiple departments, up to 3. 
         public virtual ICollection<Departments> Departments { get; set; }
-
+        
         public virtual ICollection<PlannedShift> PlannedShifts { get; set; }
+        public virtual ICollection<WorkedShift> WorkedShifts { get; set; }
+        public virtual ICollection<UnavailableMoment> UnavailableMoments { get; set; }
 
-        #region bools for departments
+
+
+
+
+        #region bools for departments and temporary for viewmodel
         [NotMapped]
         [Display(Name = "Vers afdeling")]
         public bool FreshDepartmentEnum { get; set; }
@@ -59,8 +57,17 @@ namespace BumboPOC.Models.DatabaseModels
         [NotMapped]
         [Display(Name = "Vakkenvullers afdeling")]
         public bool StockersDepartment { get; set; }
-        #endregion
+       
 
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                { return FirstName + " " + MiddleName + " " + LastName; }
+            }
+        }
+        #endregion
         // constructor without id
         public Employee(string firstName, string middleName, string lastName, DateTime birthDate, string email, bool active, string bankNumber)
         {
@@ -81,6 +88,8 @@ namespace BumboPOC.Models.DatabaseModels
             LastName = lastName;
             Departments = new HashSet<Departments>();
             PlannedShifts = new HashSet<PlannedShift>();
+            WorkedShifts = new HashSet<WorkedShift>();
+            UnavailableMoments = new HashSet<UnavailableMoment>();
             BirthDate = birthDate;
             Email = email;
             Active = active;
@@ -96,6 +105,8 @@ namespace BumboPOC.Models.DatabaseModels
             LastName = lastName;
             Departments = new HashSet<Departments>();
             PlannedShifts = new HashSet<PlannedShift>();
+            WorkedShifts = new HashSet<WorkedShift>();
+            UnavailableMoments = new HashSet<UnavailableMoment>();
             BirthDate = birthDate;
             Email = email;
             Active = active;
@@ -104,11 +115,15 @@ namespace BumboPOC.Models.DatabaseModels
 
         public Employee()
         {
-
             Departments = new HashSet<Departments>();
             PlannedShifts = new HashSet<PlannedShift>();
+            WorkedShifts = new HashSet<WorkedShift>();
+            UnavailableMoments = new HashSet<UnavailableMoment>();
         }
+        
+  
 
+        
 
 
     }

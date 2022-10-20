@@ -1,4 +1,4 @@
-﻿using BumboPOC.Models.DatabaseModels;
+﻿using BumboPOC.Models.DomainModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

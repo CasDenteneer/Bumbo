@@ -1,4 +1,4 @@
-using BumboPOC.Models.DatabaseModels;
+using BumboPOC.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BumboPOC

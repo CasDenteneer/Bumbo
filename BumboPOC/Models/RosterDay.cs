@@ -1,4 +1,4 @@
-﻿using BumboPOC.Models.DatabaseModels;
+﻿using BumboPOC.Models.DomainModels;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.ComponentModel;
 using System.Drawing;

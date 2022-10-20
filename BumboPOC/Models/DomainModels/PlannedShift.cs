@@ -3,7 +3,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BumboPOC.Models.DatabaseModels
+namespace BumboPOC.Models.DomainModels
 {
     public class PlannedShift
     {
@@ -13,7 +13,6 @@ namespace BumboPOC.Models.DatabaseModels
         [ForeignKey("Employee")]
         public int EmployeeId { get; set; }
         public virtual Employee Employee { get; set; }
-        [ForeignKey("PrognosisDay")]
         public int PrognosisId { get; set; }
         public virtual PrognosisDay PrognosisDay { get; set; }
 

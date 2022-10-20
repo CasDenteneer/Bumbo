@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 
-namespace BumboPOC.Models.DatabaseModels
+namespace BumboPOC.Models.DomainModels
 {
     [Index(nameof(Date), IsUnique = true)]
     public class PrognosisDay
@@ -15,7 +15,7 @@ namespace BumboPOC.Models.DatabaseModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public virtual ICollection<PlannedShift>? PlannedShifts { get; set; }
+        public virtual ICollection<PlannedShift>? PlannedShiftsOnDay { get; set; }
 
 
         //  amount of collies and customers, given by the prognosis_input
@@ -55,7 +55,7 @@ namespace BumboPOC.Models.DatabaseModels
             AmountOfCollies = amountOfCollies;
             AmountOfCustomers = amountOfCustomers;
             Date = date;
-            PlannedShifts = new HashSet<PlannedShift>();
+            PlannedShiftsOnDay = new HashSet<PlannedShift>();
             updatePrognosis();
         }
 

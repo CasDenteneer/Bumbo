@@ -1,5 +1,6 @@
 ﻿using BumboPOC.Models;
-using BumboPOC.Models.DatabaseModels;
+using BumboPOC.Models.DomainModels;
+using BumboPOC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BumboPOC.Controllers
@@ -52,5 +53,7 @@ namespace BumboPOC.Controllers
             return View(employee);
 
         }
+
+        
     }
 }
