@@ -1,51 +1,36 @@
-﻿using BumboPOC.Models;
+﻿using BumboPOC.Models.DomainModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BumboPOC.Controllers
 {
     public class PrognosisController : Controller
     {
         private readonly MyContext _MyContext;
-        List<PrognosisDay> PrognosisList = new List<PrognosisDay>();
+ 
         
         public PrognosisController(MyContext myContext)
         {
             _MyContext = myContext;
-
-
-            // prognosis test data in region:
-            #region
-
-            PrognosisDay prognosis1 = new PrognosisDay(100, 50, new DateTime(2020, 1, 1));
-            PrognosisDay prognosis2 = new PrognosisDay(200, 60, new DateTime(2020, 1, 2));
-            PrognosisDay prognosis3 = new PrognosisDay(300, 80, new DateTime(2020, 1, 3));
-            PrognosisDay prognosis4 = new PrognosisDay(400, 120, new DateTime(2020, 1, 4));
-            PrognosisDay prognosis5 = new PrognosisDay(500, 150, new DateTime(2020, 1, 5));
-
-
-
-            PrognosisList.Add(prognosis1);
-            PrognosisList.Add(prognosis2);
-            PrognosisList.Add(prognosis3);
-            PrognosisList.Add(prognosis4);
-            PrognosisList.Add(prognosis5);
-            #endregion
 
         }
 
         // GET: PrognosisController
         public ActionResult Index()
         {
-            return View(PrognosisList);
+            
+
+            return View(_MyContext.Prognosis.Where(p => p.Date >= DateTime.Now).ToList());
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index(List<PrognosisDay> prognosisList)
         {
-            PrognosisList = prognosisList;
-            return View(PrognosisList);
+
+            return View(_MyContext.Prognosis.ToList());
         }
 
 
@@ -58,19 +43,34 @@ namespace BumboPOC.Controllers
         // GET: PrognosisController/Create
         public ActionResult Create()
         {
+            if(_MyContext.Prognosis.OrderByDescending(p => p.Date).FirstOrDefault() != null)
+            {
+                PrognosisDay prognosis = _MyContext.Prognosis.OrderByDescending(p => p.Date).First();
+                prognosis.Date = prognosis.Date.AddDays(1);
+                
+                return View(prognosis);
+            }
             return View();
         }
 
         // POST: PrognosisController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(PrognosisDay prognosis)
         {
-            try
+            if (ModelState.IsValid)
             {
+                prognosis.updatePrognosis();
+                // if item can't be added to context (because it already exists) then cancel, date is unique.
+                if (_MyContext.Prognosis.Where(p => p.Date.Equals(prognosis.Date)).Count() > 0)
+                {
+                    return View();
+                }
+                _MyContext.Prognosis.Add(prognosis);
+                _MyContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
                 return View();
             }
@@ -79,14 +79,30 @@ namespace BumboPOC.Controllers
         // GET: PrognosisController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            // get item based on id
+            return View(_MyContext.Prognosis.Where(p => p.Id == id).FirstOrDefault());
         }
 
         // POST: PrognosisController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, PrognosisDay prognosis)
         {
+            var dbprognosis = _MyContext.Prognosis.Where(p => p.Id == id).FirstOrDefault();
+            if (dbprognosis != null)
+            {
+                dbprognosis.AmountOfCollies = prognosis.AmountOfCollies;
+                dbprognosis.AmountOfCustomers = prognosis.AmountOfCustomers;
+                _MyContext.Prognosis.Update(dbprognosis);
+            }
+ 
+
+            if (_MyContext.ChangeTracker.HasChanges())
+            {
+                _MyContext.SaveChanges();
+            }
+
+
             try
             {
                 return RedirectToAction(nameof(Index));

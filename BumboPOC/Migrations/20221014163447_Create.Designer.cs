@@ -4,6 +4,7 @@ using BumboPOC.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BumboPOC.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20221014163447_Create")]
+    partial class Create
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +24,7 @@ namespace BumboPOC.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("BumboPOC.Models.DomainModels.Departments", b =>
+            modelBuilder.Entity("BumboPOC.Models.Departments", b =>
                 {
                     b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd()
@@ -38,7 +40,7 @@ namespace BumboPOC.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("BumboPOC.Models.DomainModels.Employee", b =>
+            modelBuilder.Entity("BumboPOC.Models.Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,7 +83,7 @@ namespace BumboPOC.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("BumboPOC.Models.DomainModels.PlannedShift", b =>
+            modelBuilder.Entity("BumboPOC.Models.PlannedShift", b =>
                 {
                     b.Property<int>("ShiftId")
                         .ValueGeneratedOnAdd()
@@ -113,7 +115,7 @@ namespace BumboPOC.Migrations
                     b.ToTable("PlannedShift");
                 });
 
-            modelBuilder.Entity("BumboPOC.Models.DomainModels.PrognosisDay", b =>
+            modelBuilder.Entity("BumboPOC.Models.PrognosisDay", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -147,63 +149,6 @@ namespace BumboPOC.Migrations
                     b.ToTable("Prognosis");
                 });
 
-            modelBuilder.Entity("BumboPOC.Models.DomainModels.UnavailableMoment", b =>
-                {
-                    b.Property<int>("UnavailableMomentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UnavailableMomentId"), 1L, 1);
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsAccountedForInWorkLoad")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("UnavailableMomentId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("UnavailableMoment");
-                });
-
-            modelBuilder.Entity("BumboPOC.Models.DomainModels.WorkedShift", b =>
-                {
-                    b.Property<int>("WorkedShiftId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkedShiftId"), 1L, 1);
-
-                    b.Property<int>("Department")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("WorkedShiftId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("WorkedShift");
-                });
-
             modelBuilder.Entity("DepartmentsEmployee", b =>
                 {
                     b.Property<int>("DepartmentsEmployeeId")
@@ -219,16 +164,16 @@ namespace BumboPOC.Migrations
                     b.ToTable("DepartmentsEmployee");
                 });
 
-            modelBuilder.Entity("BumboPOC.Models.DomainModels.PlannedShift", b =>
+            modelBuilder.Entity("BumboPOC.Models.PlannedShift", b =>
                 {
-                    b.HasOne("BumboPOC.Models.DomainModels.Employee", "Employee")
+                    b.HasOne("BumboPOC.Models.Employee", "Employee")
                         .WithMany("PlannedShifts")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BumboPOC.Models.DomainModels.PrognosisDay", "PrognosisDay")
-                        .WithMany("PlannedShiftsOnDay")
+                    b.HasOne("BumboPOC.Models.PrognosisDay", "PrognosisDay")
+                        .WithMany("PlannedShifts")
                         .HasForeignKey("PrognosisId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -238,55 +183,29 @@ namespace BumboPOC.Migrations
                     b.Navigation("PrognosisDay");
                 });
 
-            modelBuilder.Entity("BumboPOC.Models.DomainModels.UnavailableMoment", b =>
-                {
-                    b.HasOne("BumboPOC.Models.DomainModels.Employee", "Employee")
-                        .WithMany("UnavailableMoments")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("BumboPOC.Models.DomainModels.WorkedShift", b =>
-                {
-                    b.HasOne("BumboPOC.Models.DomainModels.Employee", "Employee")
-                        .WithMany("WorkedShifts")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("DepartmentsEmployee", b =>
                 {
-                    b.HasOne("BumboPOC.Models.DomainModels.Departments", null)
+                    b.HasOne("BumboPOC.Models.Departments", null)
                         .WithMany()
                         .HasForeignKey("DepartmentsEmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BumboPOC.Models.DomainModels.Employee", null)
+                    b.HasOne("BumboPOC.Models.Employee", null)
                         .WithMany()
                         .HasForeignKey("EmployeesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BumboPOC.Models.DomainModels.Employee", b =>
+            modelBuilder.Entity("BumboPOC.Models.Employee", b =>
                 {
                     b.Navigation("PlannedShifts");
-
-                    b.Navigation("UnavailableMoments");
-
-                    b.Navigation("WorkedShifts");
                 });
 
-            modelBuilder.Entity("BumboPOC.Models.DomainModels.PrognosisDay", b =>
+            modelBuilder.Entity("BumboPOC.Models.PrognosisDay", b =>
                 {
-                    b.Navigation("PlannedShiftsOnDay");
+                    b.Navigation("PlannedShifts");
                 });
 #pragma warning restore 612, 618
         }
