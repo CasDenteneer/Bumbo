@@ -9,12 +9,12 @@ using System.Numerics;
 
 namespace BumboPOC.Controllers
 {
-    public class RosterController : Controller
+    public class RosterManagerController : Controller
     {
 
         private readonly MyContext _MyContext;
 
-        public RosterController(MyContext myContext)
+        public RosterManagerController(MyContext myContext)
         {
             _MyContext = myContext;
          
