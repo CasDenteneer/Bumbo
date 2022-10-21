@@ -37,28 +37,28 @@
         <div class="border col-sm d-flex justify-content-center flex-nowrap">
             
             <dt >
-                @Html.DisplayNameFor(model => model.PrognosisDay.CassiereDepartment) : 
+                @Html.DisplayNameFor(model => model.UpdatedCassiereDepartment) : 
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.PrognosisDay.CassiereDepartment) Uren
+                @Html.DisplayFor(model => model.UpdatedCassiereDepartment) Uren
             </dd>
         </div>
 
         <div class="border col-sm d-flex justify-content-center flex-nowrap">
             <dt>
-                @Html.DisplayNameFor(model => model.PrognosisDay.FreshDepartment) : 
+                @Html.DisplayNameFor(model => model.UpdatedFreshDepartment) :
             </dt>
             <dd >
-                @Html.DisplayFor(model => model.PrognosisDay.FreshDepartment) Uren
+                @Html.DisplayFor(model => model.UpdatedFreshDepartment) Uren
             </dd>
         </div >
 
         <div class="border col-sm d-flex justify-content-center flex-nowrap">
             <dt>
-                @Html.DisplayNameFor(model => model.PrognosisDay.StockersDepartment) : 
+                @Html.DisplayNameFor(model => model.UpdatedStockersDepartment) :
             </dt>
             <dd >
-                @Html.DisplayFor(model => model.PrognosisDay.StockersDepartment) Uren
+                @Html.DisplayFor(model => model.UpdatedStockersDepartment) Uren
             </dd>
         </div>
        
@@ -149,7 +149,13 @@
                                             break;
                                     }
                                 }else{
-                                <td style=" width: 4%; background-color: white ; padding: 10px; border: 1px solid darkgrey;"> </td>
+
+                                    if(Model.IsUnavailable(employee, i)){
+                                        <td style=" width: 4%; background-color: red ; padding: 10px; border: 1px solid darkgrey;"> </td>
+                                    }else{
+                                        <td style=" width: 4%; background-color: white ; padding: 10px; border: 1px solid darkgrey;"> </td>
+                                    }
+                               
                                 }
      
                                 

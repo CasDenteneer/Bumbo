@@ -17,10 +17,20 @@ namespace BumboPOC.Models
             set { PrognosisDay.Date = value; }
         }
 
+        [DisplayName("Kassa Afdeling")]
+        public double? UpdatedCassiereDepartment => Math.Round((double)(PrognosisDay.CassiereDepartment - this.UpdatePrognosisWithoutPlannedHours(DepartmentEnum.Cassiere)), 2);
+        [DisplayName("Vers Afdeling")]
+        public double? UpdatedFreshDepartment => Math.Round((double)(PrognosisDay.FreshDepartment - this.UpdatePrognosisWithoutPlannedHours(DepartmentEnum.Fresh)), 2);
+        [DisplayName("VakkenVullers Afdeling")]
+        public double? UpdatedStockersDepartment => Math.Round((double)(PrognosisDay.StockersDepartment - UpdatePrognosisWithoutPlannedHours(DepartmentEnum.Stocker)), 2);
+
 
         public PrognosisDay PrognosisDay { get; set; }
         // list of employees
         public List<Employee> AvailableEmployees { get; set; }
+
+
+        public List<UnavailableMoment> UnavailableMomentsOnDay { get; set; }
 
 
         public List<Employee> AssignedEmployees { get; set; }
@@ -54,65 +64,51 @@ namespace BumboPOC.Models
         
         public bool IsPlanned(Employee employee, int hour)
         {
-            if (AssignedEmployees.Contains(employee) != true)
+            if(PrognosisDay.PlannedShiftsOnDay == null)
             {
                 return false;
             }
-            if (employee.PlannedShifts == null)
+            List<PlannedShift> shifts = PrognosisDay.PlannedShiftsOnDay.Where(p => p.Employee.Id == employee.Id && p.StartTime.Hour <= hour && p.EndTime.Hour > hour).ToList();
+            if (shifts.Count > 0)
             {
-                return false;
+                return true;
             }
+            return false;
+        }
 
-            foreach (PlannedShift plannedShift in employee.PlannedShifts)
+        public bool IsUnavailable(Employee employee, int hour)
+        {
+
+            List<UnavailableMoment> unavailable = UnavailableMomentsOnDay.Where(u => u.EmployeeId == employee.Id && u.StartTime.Hour <= hour && u.EndTime.Hour > hour).ToList();
+            if (unavailable.Count > 0)
             {
-                if (plannedShift.PrognosisDay.Date == Date)
-                {
-                    // if the employee is scheduled on the day and the hour is between the start and end time of the shift return true
-                    if (plannedShift.StartTime.Hour <= hour && plannedShift.EndTime.Hour > hour)
-                    {
-                        return true;
-                    }
-                }
-               
+                return true;
             }
             return false;
         }
 
         public DepartmentEnum GetEmployeeDepartmentShift(Employee employee, int hour)
         {
-
-            if (AssignedEmployees.Contains(employee) != true)
+            if (PrognosisDay.PlannedShiftsOnDay == null)
             {
                 return DepartmentEnum.None;
             }
-            if (employee.PlannedShifts == null)
+            List<PlannedShift> shifts = PrognosisDay.PlannedShiftsOnDay.Where(p => p.Employee.Id == employee.Id && p.StartTime.Hour <= hour && p.EndTime.Hour > hour).ToList();
+            if (shifts.Count > 0)
             {
-                return DepartmentEnum.None;
-            }
-
-            foreach (PlannedShift plannedShift in employee.PlannedShifts)
-            {
-                if (plannedShift.PrognosisDay.Date == Date)
-                {
-                    // if the employee is scheduled on the day and the hour is between the start and end time of the shift return true
-                    if (plannedShift.StartTime.Hour <= hour && plannedShift.EndTime.Hour > hour)
-                    {
-                        // for each department return a html color code
-
-
-                        return plannedShift.Department;
-                        //return DepartmentEnumExtension.GetDutchNames(plannedShift.Department);
-                    }
-                }
-
+                return shifts.First().Department;
             }
             return DepartmentEnum.None;
         }
 
-        public double UpdatePrognosis(DepartmentEnum department, List<PlannedShift> PlannedShifts)
+        public double UpdatePrognosisWithoutPlannedHours(DepartmentEnum department)
         {
             double totalHours = 0;
-            foreach (var planned in PlannedShifts)
+            if (PrognosisDay.PlannedShiftsOnDay == null)
+            {
+                return 0;
+            }
+            foreach (var planned in PrognosisDay.PlannedShiftsOnDay)
             {
                 if (planned.Department == department)
                 {

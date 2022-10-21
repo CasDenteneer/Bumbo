@@ -30,8 +30,7 @@ namespace BumboPOC.Controllers
             }
             DateTime newDate = DateTime.Parse(dateInput);
 
-            PrognosisDay? prognosis = _MyContext.Prognosis.Where(p => p.Date == newDate.Date).FirstOrDefault();
-
+            PrognosisDay? prognosis = _MyContext.Prognosis.Include(p => p.PlannedShiftsOnDay).ThenInclude(p => p.Employee).ThenInclude(e => e.Departments).Where(p => p.Date == newDate.Date).FirstOrDefault();
             if (prognosis == null)
             {
                 prognosis = new PrognosisDay();
@@ -40,14 +39,15 @@ namespace BumboPOC.Controllers
                 prognosis.AmountOfCustomers = 0;
             }
             RosterDay roster = new RosterDay(prognosis);
+
+            roster.UnavailableMomentsOnDay = _MyContext.UnavailableMoment.Where(u => u.StartTime.Date == newDate).Include(u => u.Employee).ToList();
+
             var employeesAll = _MyContext.Employees.Include(e => e.Departments).ToList();
             roster.AvailableEmployees = employeesAll;
 
-            // get the employees that have been scheduled on the day already
-            roster.AssignedEmployees = _MyContext.Employees.Include(e => e.PlannedShifts).ToList();
-            // get all planned shifts on that day
 
-            roster.PrognosisDay.UpdatePrognosis(_MyContext.PlannedShift.Where(p => p.PrognosisDay.Date == newDate).ToList());
+
+
             return View(roster);
            
         }

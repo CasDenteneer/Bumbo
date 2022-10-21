@@ -6,6 +6,7 @@ namespace BumboPOC.Models.DomainModels
     public class WorkedShift
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int WorkedShiftId { get; set; }
         
         public int EmployeeId { get; set; }

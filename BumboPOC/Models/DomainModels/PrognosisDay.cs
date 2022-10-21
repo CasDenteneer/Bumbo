@@ -33,11 +33,11 @@ namespace BumboPOC.Models.DomainModels
         public DateTime Date { get; set; }
 
         [DisplayName("Kassa Afdeling")]
-        public double? CassiereDepartment { get; set; }
+        public double CassiereDepartment { get; set; }
         [DisplayName("Vers Afdeling")]
-        public double? FreshDepartment { get; set; }
+        public double FreshDepartment { get; set; }
         [DisplayName("VakkenVullers Afdeling")]
-        public double? StockersDepartment { get; set; }
+        public double StockersDepartment { get; set; }
 
         public void updatePrognosis()
         {
@@ -74,37 +74,6 @@ namespace BumboPOC.Models.DomainModels
         {
             updatePrognosis();
         }
-
-        public double UpdatePrognosis(List<PlannedShift> PlannedShifts)
-        {
-            double totalHours = 0;
-            foreach (var planned in PlannedShifts)
-            {
-                if (planned.PrognosisDay.Date == Date)
-                {
-                    TimeSpan time = planned.EndTime - planned.StartTime;
-                    // reduce the value in the department by the time
-                    switch (planned.Department)
-                    {
-                        case DepartmentEnum.Cassiere:
-                            CassiereDepartment = Math.Round((double)(CassiereDepartment - time.TotalHours), 2);
-                            break;
-                        case DepartmentEnum.Fresh:
-                            FreshDepartment = Math.Round((double)(FreshDepartment - time.TotalHours), 2);
-                            break;
-                        case DepartmentEnum.Stocker:
-                            StockersDepartment = Math.Round((double)(StockersDepartment - time.TotalHours), 2);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-            }
-            return totalHours;
-        }
-
-
 
 
     }
