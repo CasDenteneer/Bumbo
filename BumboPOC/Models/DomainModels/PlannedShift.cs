@@ -22,6 +22,10 @@ namespace BumboPOC.Models.DomainModels
         [Required]
         [DataType(DataType.Time)]
         public DateTime EndTime { get; set; }
+
+        [Required]
+        public string Location { get; set; }
+
         [Required]
         public DepartmentEnum Department { get; set; }
 
