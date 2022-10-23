@@ -5,13 +5,14 @@ namespace BumboPOC
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<MyContext>();
             builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             builder.Services.AddDbContext<MyContext>(options =>
             {
@@ -39,6 +40,14 @@ namespace BumboPOC
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<MyContext>();
+                context.Database.Migrate();
+                await MySeedData.SeedAsync(context);
+            }
 
             app.Run();
         }

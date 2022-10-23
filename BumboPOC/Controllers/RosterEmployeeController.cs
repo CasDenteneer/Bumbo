@@ -13,13 +13,9 @@ namespace BumboPOC.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        //get all employees from the database
-        public IActionResult GetEmployees()
-        {
-            return View(_MyContext.Employees.ToList());
+            var _employee = _MyContext.Employees.Where(e => e.Id == 1).FirstOrDefault();
+            var _plannedShifts = _MyContext.PlannedShift.Where(s => s.EmployeeId == _employee.Id).ToList();
+            return View(_plannedShifts);
         }
 
     }
