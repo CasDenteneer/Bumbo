@@ -20,6 +20,7 @@ namespace BumboPOC.Controllers
 
         public IActionResult Privacy()
         {
+           
             return View();
         }
 

@@ -1,3 +1,6 @@
+using BumboPOC.Models.DomainModels;
+using Microsoft.EntityFrameworkCore;
+
 namespace BumboPOC
 {
     public class Program
@@ -8,7 +11,14 @@ namespace BumboPOC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews();
+            builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            builder.Services.AddDbContext<MyContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("BumboPOC"));
 
+
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

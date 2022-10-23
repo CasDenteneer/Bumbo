@@ -15,4 +15,13 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: ghostwhite;
+}
+
+.rotate_img {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180dg);
+    -ms-transform: rotate(180);
+    -o-transform: rotate(180deg);
+    transform: rotate(180dg);
 }
