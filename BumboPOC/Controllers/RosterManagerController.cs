@@ -42,7 +42,7 @@ namespace BumboPOC.Controllers
 
             roster.UnavailableMomentsOnDay = _MyContext.UnavailableMoment.Where(u => u.StartTime.Date == newDate).Include(u => u.Employee).ToList();
 
-            var employeesAll = _MyContext.Employees.Include(e => e.Departments).ToList();
+            var employeesAll = _MyContext.Employees.Include(e => e.Departments).Where(e => e.Active == true).ToList();
             roster.AvailableEmployees = employeesAll;
 
 
@@ -95,7 +95,7 @@ namespace BumboPOC.Controllers
         {
             try
             {
-                plannedShift.Employee = _MyContext.Employees.Find(plannedShift.EmployeeId);
+                plannedShift.Employee = _MyContext.Employees.Include(e => e.Departments).Where(e => e.Id == plannedShift.EmployeeId).FirstOrDefault();
                 plannedShift.PrognosisDay = _MyContext.Prognosis.Find(plannedShift.PrognosisId);
                 if (plannedShift.PrognosisDay == null)
                 { 
@@ -106,6 +106,54 @@ namespace BumboPOC.Controllers
                     plannedShift.PrognosisDay = prognosisDay;
 
                 }
+
+
+
+                //check if the endtime is after starttime
+                if (plannedShift.EndTime < plannedShift.StartTime)
+                {
+                    ModelState.AddModelError("EndTime", "Eindtijd moet na starttijd komen.");
+                    return View(plannedShift);
+                }
+                //check if the plannedshift is within acceptable limits between 8 and 22 hours.
+                if (plannedShift.StartTime < plannedShift.PrognosisDay.Date.AddHours(8) || plannedShift.EndTime > plannedShift.PrognosisDay.Date.AddHours(22))
+                {
+                    ModelState.AddModelError("StartTime", "Dienst moet tussen 8 en 22 uur zijn.");
+                    ModelState.AddModelError("EndTime", "Dienst moet tussen 8 en 22 uur zijn.");
+                    return View(plannedShift);
+                }
+
+                // check if there's any overlapping shifts for the employee on the given day
+                var overlappingShifts = _MyContext.PlannedShift.Where(p => p.EmployeeId == plannedShift.EmployeeId && p.StartTime.Date == plannedShift.StartTime.Date).ToList();
+                if (overlappingShifts.Count > 0)
+                {
+                    foreach (var shift in overlappingShifts)
+                    {
+                        if (plannedShift.StartTime < shift.EndTime && plannedShift.EndTime > shift.StartTime)
+                        {
+                            ModelState.AddModelError("StartTime", "Medewerker is al ingepland for deze tijden.");
+                            ModelState.AddModelError("EndTime", "Medewerker is al ingepland for deze tijden.");
+                            return View(plannedShift);
+                        }
+                        
+                    }
+                }
+                // check if employee is unavailable in unavailable moments 
+                var unavailableMoments = _MyContext.UnavailableMoment.Where(u => u.EmployeeId == plannedShift.EmployeeId && u.StartTime.Date == plannedShift.StartTime.Date).ToList();
+                if (unavailableMoments.Count > 0)
+                {
+                    foreach (var moment in unavailableMoments)
+                    {
+                        if (plannedShift.StartTime < moment.EndTime && plannedShift.EndTime > moment.StartTime)
+                        {
+                            ModelState.AddModelError("StartTime", "Medewerker is niet beschikbaar voor deze tijd.");
+                            ModelState.AddModelError("EndTime", "Medewerker is niet beschikbaar voor deze tijd.");
+                            
+                            return View(plannedShift);
+                        }
+                    }
+                }
+
                 _MyContext.PlannedShift.Add(plannedShift);
                 _MyContext.SaveChanges();
                 return RedirectToAction(nameof(Index));

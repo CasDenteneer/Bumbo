@@ -32,6 +32,7 @@ namespace BumboPOC.Models.DomainModels
         [ModelBinder]
         public DateTime Date { get; set; }
 
+        // this is the prognosis calculated using the norm for each department.
         [DisplayName("Kassa Afdeling")]
         public double CassiereDepartment { get; set; }
         [DisplayName("Vers Afdeling")]

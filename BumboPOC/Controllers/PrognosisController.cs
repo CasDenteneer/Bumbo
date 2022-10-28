@@ -19,9 +19,7 @@ namespace BumboPOC.Controllers
         // GET: PrognosisController
         public ActionResult Index()
         {
-            
-
-            return View(_MyContext.Prognosis.Where(p => p.Date >= DateTime.Now).ToList());
+            return View(_MyContext.Prognosis.Where(p => p.Date >= DateTime.Now.Date.AddDays(-1)).ToList());
 
         }
 
@@ -30,7 +28,7 @@ namespace BumboPOC.Controllers
         public ActionResult Index(List<PrognosisDay> prognosisList)
         {
 
-            return View(_MyContext.Prognosis.ToList());
+            return View(prognosisList);
         }
 
 

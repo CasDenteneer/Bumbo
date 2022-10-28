@@ -88,11 +88,15 @@
         <div style="background-color: green ; padding: 10px; border: 1px solid black;">
             <p class="fw-bolder">Vers afdeling</p>
         </div>
-        <div style="background-color: brown ; padding: 10px; border: 1px solid black;">
+        <div style="background-color: saddlebrown ; padding: 10px; border: 1px solid black;">
             <p class="fw-bolder">Vakken vuller afdeling</p>
         </div>
         <div style="background-color: white ; padding: 10px; border: 1px solid black;">
             <p class="fw-bolder">Niet ingepland</p>
+        </div>
+            <div style=" background-color: red ; padding: 10px; border: 1px solid black;">
+                <p class="fw-bolder"> Niet beschikbaar </p>
+
         </div>
 
     </div>
@@ -122,7 +126,7 @@
             {
                 foreach (var employee in Model.AvailableEmployees)
                 {
-                    <tr style ="width: 4%;">
+                    <tr  style ="width: 4%;">
                         <td >
                             @employee.FullName
                           
@@ -142,7 +146,7 @@
                                         <td style="width: 4%; background-color: green ; padding: 10px; border: 1px solid darkgrey;"> </td>
                                             break;
                                         case DepartmentEnum.Stocker:
-                                        <td style="width: 4%; background-color: brown ; padding: 10px; border: 1px solid darkgrey;"> </td>
+                                        <td style="width: 4%; background-color: saddlebrown ; padding: 10px; border: 1px solid darkgrey;"> </td>
                                             break;
                                         default:
                                         <td style="width: 4%; background-color: white ; padding: 10px; border: 1px solid darkgrey;"> </td>

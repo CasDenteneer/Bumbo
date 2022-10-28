@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,30 +13,36 @@ namespace BumboPOC.Models.DomainModels
 
         [Required]
         [StringLength(50)]
+        [DisplayName("Voornaam")]
         public string FirstName { get; set; }
         [StringLength(25)]
+        [DisplayName("Tussennaam")]
         public string? MiddleName { get; set; }
         [Required]
         [StringLength(50)]
+        [DisplayName("Achternaam")]
         public string LastName { get; set; }
      
 
         [Required]
         [DataType(DataType.Date)]
+        [DisplayName("Geboortedatum")]
         public DateTime BirthDate { get; set; }
         [Required]
         [StringLength(50)]
         [EmailAddress]
+        [DisplayName("Email")]
         public string Email { get; set; }
         [Required]
+        [DisplayName("Active werknemer, (Kan ingepland worden)")]
         public bool Active { get; set; }
         [Required]
         [StringLength(45)]
         [RegularExpression(@"^[0-9]{2}-[0-9]{4}-[0-9]{2}$", ErrorMessage = "Bank number must be in the format 00-0000-00")]
-        [Display(Name = "Bank number")]
+        [Display(Name = "Bank nummer")]
         public string BankNumber { get; set; }
 
-        
+
         // Employee can have multiple departments, up to 3. 
         public virtual ICollection<Departments> Departments { get; set; }
         
