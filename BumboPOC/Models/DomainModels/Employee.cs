@@ -50,7 +50,11 @@ namespace BumboPOC.Models.DomainModels
         public virtual ICollection<WorkedShift> WorkedShifts { get; set; }
         public virtual ICollection<UnavailableMoment> UnavailableMoments { get; set; }
 
-
+        public int MaxHoursInWeekAllowed 
+        {
+            get { return 40; } // TEMPORARY
+            // TODO get from database, base this on contract / CAO rules
+        }
 
 
 

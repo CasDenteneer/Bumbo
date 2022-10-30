@@ -36,7 +36,6 @@ namespace BumboPOC.Models
 
         public List<Employee> AssignedEmployees { get; set; }
 
-     
 
 
 
