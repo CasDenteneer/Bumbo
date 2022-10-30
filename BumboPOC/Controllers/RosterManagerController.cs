@@ -108,6 +108,18 @@ namespace BumboPOC.Controllers
                 }
 
 
+                // Inputted start date and end date are not on the same day as the prognosis so set the date to the prognosis date
+                if (plannedShift.StartTime.Date != plannedShift.PrognosisDay.Date)
+                {
+                    plannedShift.StartTime = plannedShift.PrognosisDay.Date.AddHours(plannedShift.StartTime.Hour);
+                }
+                if (plannedShift.EndTime.Date != plannedShift.PrognosisDay.Date)
+                {
+                    plannedShift.EndTime = plannedShift.PrognosisDay.Date.AddHours(plannedShift.EndTime.Hour);
+                }
+
+
+
 
                 //check if the endtime is after starttime
                 if (plannedShift.EndTime < plannedShift.StartTime)
@@ -115,13 +127,7 @@ namespace BumboPOC.Controllers
                     ModelState.AddModelError("EndTime", "Eindtijd moet na starttijd komen.");
                     return View(plannedShift);
                 }
-                //check if the plannedshift is within acceptable limits between 8 and 22 hours.
-                if (plannedShift.StartTime < plannedShift.PrognosisDay.Date.AddHours(8) || plannedShift.EndTime > plannedShift.PrognosisDay.Date.AddHours(22))
-                {
-                    ModelState.AddModelError("StartTime", "Dienst moet tussen 8 en 22 uur zijn.");
-                    ModelState.AddModelError("EndTime", "Dienst moet tussen 8 en 22 uur zijn.");
-                    return View(plannedShift);
-                }
+
 
                 // check if there's any overlapping shifts for the employee on the given day
                 var overlappingShifts = _MyContext.PlannedShift.Where(p => p.EmployeeId == plannedShift.EmployeeId && p.StartTime.Date == plannedShift.StartTime.Date).ToList();
@@ -154,6 +160,30 @@ namespace BumboPOC.Controllers
                     }
                 }
 
+                // start of week, calculated by getting the difference between the date and monday.
+                int diff = DayOfWeek.Monday - plannedShift.PrognosisDay.Date.DayOfWeek;
+                if (diff > 0)
+                    diff -= 7;
+                var startOfWeek = plannedShift.PrognosisDay.Date.AddDays(diff);
+                // check if the employee has worked too much this week 
+                var shiftsThisWeek = _MyContext.PlannedShift.Where(p => p.EmployeeId == plannedShift.EmployeeId && p.StartTime.Date >= startOfWeek && p.StartTime.Date <= startOfWeek.AddDays(6)).ToList();
+                if (shiftsThisWeek.Count > 0)
+                {
+                    double totalHoursThisWeek = 0;
+                    foreach (var shift in shiftsThisWeek)
+                    {
+                        totalHoursThisWeek += (shift.EndTime - shift.StartTime).TotalHours;
+                    }
+                    if (totalHoursThisWeek + (plannedShift.EndTime - plannedShift.StartTime).TotalHours > plannedShift.Employee.MaxHoursInWeekAllowed)
+                    {
+                        ModelState.AddModelError("StartTime", "Medewerker heeft al te veel gewerkt deze week.");
+                        ModelState.AddModelError("EndTime", "Medewerker heeft al te veel gewerkt deze week.");
+                        return View(plannedShift);
+                    }
+                }
+
+
+
                 _MyContext.PlannedShift.Add(plannedShift);
                 _MyContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
@@ -165,6 +195,8 @@ namespace BumboPOC.Controllers
 
 
         }
+
+
 
         // GET: Roster/Edit/5
         public ActionResult Edit(int id)

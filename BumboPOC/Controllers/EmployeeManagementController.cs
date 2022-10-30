@@ -2,6 +2,8 @@
 using BumboPOC.Models.DomainModels;
 using BumboPOC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace BumboPOC.Controllers
 {
@@ -14,9 +16,28 @@ namespace BumboPOC.Controllers
             _MyContext = myContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            return View();
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            var employees = from s in _MyContext.Employees
+                           select s;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    employees = employees.OrderByDescending(e => e.LastName);
+                    break;
+                case "Date":
+                    employees = employees.OrderBy(e => e.BirthDate);
+                    break;
+                case "date_desc":
+                    employees = employees.OrderByDescending(e => e.BirthDate);
+                    break;
+                default:
+                    employees = employees.OrderBy(e => e.LastName);
+                    break;
+            }
+            return View(await employees.AsNoTracking().ToListAsync());
         }
 
 

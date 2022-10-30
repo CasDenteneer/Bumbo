@@ -157,7 +157,10 @@
                                     if(Model.IsUnavailable(employee, i)){
                                         <td style=" width: 4%; background-color: red ; padding: 10px; border: 1px solid darkgrey;"> </td>
                                     }else{
-                                        <td style=" width: 4%; background-color: white ; padding: 10px; border: 1px solid darkgrey;"> </td>
+                                        <td style=" width: 4%; background-color: white ; padding: 10px; border: 1px solid darkgrey;">
+ 
+                                            <div> <a class="nav-link text-dark" asp-area="" asp-controller="RosterManager" asp-route-employeeId="@employee.Id" asp-route-prognosisId="@Model.PrognosisDay.Id" asp-route-dateInput="@Model.Date.AddHours(i)" asp-action="Create"></a> </div>
+                                        </td>
                                     }
                                
                                 }

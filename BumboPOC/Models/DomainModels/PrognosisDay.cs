@@ -22,10 +22,12 @@ namespace BumboPOC.Models.DomainModels
         [Required]
         [Range(0, 50000)]
         [ModelBinder]
+        [DisplayName("Aantal collies")]
         public int AmountOfCollies { get; set; }
         [Range(0, 50000)]
         [Required]
         [ModelBinder]
+        [DisplayName("Aantal klanten")]
         public int AmountOfCustomers { get; set; }
         // date is unique in database, since you only have one prognosis per day.
         [DataType(DataType.Date)]
