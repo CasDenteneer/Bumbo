@@ -1,5 +1,6 @@
 ﻿
 
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,12 +18,15 @@ namespace BumboPOC.Models.DomainModels
         public virtual PrognosisDay PrognosisDay { get; set; }
 
         [Required]
+        [DisplayName("Startijd")]
         [DataType(DataType.Time)]
         public DateTime StartTime { get; set; }
         [Required]
+        [DisplayName("EindTijd")]
         [DataType(DataType.Time)]
         public DateTime EndTime { get; set; }
         [Required]
+        [DisplayName("Afdeling")]
         public DepartmentEnum Department { get; set; }
 
 

@@ -17,6 +17,7 @@ namespace BumboPOC.Models
             set { PrognosisDay.Date = value; }
         }
 
+        // this is the prognosis calculated by the norm but instead it is updated to the number of planned shifts on that day.
         [DisplayName("Kassa Afdeling")]
         public double? UpdatedCassiereDepartment => Math.Round((double)(PrognosisDay.CassiereDepartment - this.UpdatePrognosisWithoutPlannedHours(DepartmentEnum.Cassiere)), 2);
         [DisplayName("Vers Afdeling")]

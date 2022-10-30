@@ -3,8 +3,27 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-   
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    @Html.ActionLink("Naar prognosis", "Index", "Prognosis")
+    <h1 class="display-4">Proof of concept Bumbo</h1>
+
+    <p>In dit proof of concept zijn er verschillende complexe aspecten van het project Bumbo deels uitegewerkt om aan te tonen dat deze haalbaar zijn.</p>
+    <p> Deze zijn:</p>
+
+    <ul>
+        <li>Norm invoeren.</li>
+        <li> Prognose wordt uitgerekent met norm.</li>
+        <li>Manager kan medewerkers toevoegen.</li>
+        <li>Rooster bekijken van een dag (Medewerker en Manager versies) </li>
+        <li>manager kan in het rooster een medewerker inplannen voor een afdeling. </li>
+        <li>  Manager ziet dan de aangepaste prognose en hoeveel uren nog ingeplant moeten worden.</li>
+        <li> Afwezigheid kan ingevoerd worden voor een bepaalde medewerker.</li>
+        <li>  Al deze functies zijn al verbonden met de database. Alles wordt opgeslagen in een (nu nog lokale) database. </li>
+
+    </ul>
+
+
+
+    @Html.ActionLink("Ga hier naar prognosis en voeg een nieuwe toe aan een gegeven dag.", "Index", "Prognosis") <br />
+    @Html.ActionLink("Voeg dan een nieuwe medewerker toe", "Create", "EmployeeManagement") <br />
+    @Html.ActionLink("Ga hier dan naar rooster en zorg dat je op de juiste dag bent. Voeg voor de medewerker die je hebt aangemaakt een nieuwe dienst toe.", "Index", "RosterManager") <br />
+    
 </div>
