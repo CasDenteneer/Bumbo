@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BumboPOC.Migrations
 {
-    [DbContext(typeof(MyContext))]
+    [DbContext(typeof(MyDBContext))]
     [Migration("20221014163447_Create")]
     partial class Create
     {

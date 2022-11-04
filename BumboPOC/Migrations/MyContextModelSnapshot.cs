@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BumboPOC.Migrations
 {
-    [DbContext(typeof(MyContext))]
+    [DbContext(typeof(MyDBContext))]
     partial class MyContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

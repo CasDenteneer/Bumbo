@@ -11,9 +11,9 @@ namespace BumboPOC.Controllers
 {
     public class EmployeeAvailabilityController : Controller
     {
-        private readonly MyContext _context;
+        private readonly MyDBContext _context;
 
-        public EmployeeAvailabilityController(MyContext context)
+        public EmployeeAvailabilityController(MyDBContext context)
         {
             _context = context;
         }

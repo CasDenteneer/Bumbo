@@ -2,9 +2,9 @@
 
 namespace BumboPOC.Models.DomainModels
 {
-    public class MyContext : DbContext
+    public class MyDBContext : DbContext
     {
-        public MyContext(DbContextOptions<MyContext> options) : base(options) { }
+        public MyDBContext(DbContextOptions<MyDBContext> options) : base(options) { }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Departments> Departments { get; set; }
         public DbSet<PrognosisDay> Prognosis { get; set; }

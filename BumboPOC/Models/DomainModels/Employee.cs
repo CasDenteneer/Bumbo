@@ -7,6 +7,11 @@ namespace BumboPOC.Models.DomainModels
 {
     public class Employee
     {
+
+        // These are the values mentioned in the casus:
+        // BID	Vn	Tv	An	Geboortedatum	Leeftijd	Postcode	Huisnummer	Telefoon	Email	In dienst sinds 	Functie	Schaal	KAS	VER	VAK	SER
+
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -16,7 +21,7 @@ namespace BumboPOC.Models.DomainModels
         [DisplayName("Voornaam")]
         public string FirstName { get; set; }
         [StringLength(25)]
-        [DisplayName("Tussennaam")]
+        [DisplayName("Tussenvoegsel")]
         public string? MiddleName { get; set; }
         [Required]
         [StringLength(50)]
@@ -36,11 +41,31 @@ namespace BumboPOC.Models.DomainModels
         [Required]
         [DisplayName("Active werknemer, (Kan ingepland worden)")]
         public bool Active { get; set; }
+
+        // bank number is not used currently in any use cases.
         [Required]
         [StringLength(45)]
         [RegularExpression(@"^[0-9]{2}-[0-9]{4}-[0-9]{2}$", ErrorMessage = "Bank number must be in the format 00-0000-00")]
         [Display(Name = "Bank nummer")]
         public string BankNumber { get; set; }
+
+
+        //// function, Region, Adress, employee since items are missing:
+        //public string Function { get; set; }
+        //public string Region { get; set; }
+        //public int HouseNumber { get; set; }
+        //public DateTime EmployeeJoinedCompany { get; set; }
+
+        //// Not described in use cases, only once in casus
+        //public int Scale { get; set; }
+
+        //// the manager of the employee, can be null
+        //public int? ManagerId { get; set; }
+        //public virtual Employee? Manager { get; set; }
+
+
+
+
 
 
         // Employee can have multiple departments, up to 3. 

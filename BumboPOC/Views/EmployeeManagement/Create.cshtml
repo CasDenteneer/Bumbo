@@ -64,6 +64,10 @@
                 </label>
             </div>
 
+            <select asp-for="Departments" asp-items="Html.GetEnumSelectList<DepartmentEnum>()">
+                <option value="">Choose a day</option>
+            </select>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

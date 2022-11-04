@@ -24,4 +24,9 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BumboPOCData\BumboPOCData.csproj" />
+    <ProjectReference Include="..\BumboServices\BumboServices.csproj" />
+  </ItemGroup>
+
 </Project>

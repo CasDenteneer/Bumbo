@@ -12,9 +12,9 @@ namespace BumboPOC.Controllers
     public class RosterManagerController : Controller
     {
 
-        private readonly MyContext _MyContext;
+        private readonly MyDBContext _MyContext;
 
-        public RosterManagerController(MyContext myContext)
+        public RosterManagerController(MyDBContext myContext)
         {
             _MyContext = myContext;
          
@@ -76,8 +76,18 @@ namespace BumboPOC.Controllers
                     prognosisDay.Date = DateTime.Parse(dateInput);
                     plannedShift.PrognosisDay = prognosisDay;
                 }
-                plannedShift.StartTime = plannedShift.PrognosisDay.Date.AddHours(8);
-                plannedShift.EndTime = plannedShift.StartTime.Date.AddHours(14);
+                DateTime date = DateTime.Parse(dateInput);
+                if (date.Hour == 0)
+                {
+                    plannedShift.StartTime = plannedShift.PrognosisDay.Date.AddHours(8);
+                    plannedShift.EndTime = plannedShift.StartTime.Date.AddHours(14);
+                }
+                else
+                {
+                    plannedShift.StartTime = date;
+                    plannedShift.EndTime = date.AddHours(2);
+                }
+               
                 plannedShift.EmployeeId = employeeId;
                 plannedShift.PrognosisId = prognosisId;
             }
@@ -165,23 +175,16 @@ namespace BumboPOC.Controllers
                 if (diff > 0)
                     diff -= 7;
                 var startOfWeek = plannedShift.PrognosisDay.Date.AddDays(diff);
-                // check if the employee has worked too much this week 
-                var shiftsThisWeek = _MyContext.PlannedShift.Where(p => p.EmployeeId == plannedShift.EmployeeId && p.StartTime.Date >= startOfWeek && p.StartTime.Date <= startOfWeek.AddDays(6)).ToList();
-                if (shiftsThisWeek.Count > 0)
+                // check if the employee has worked too much this week which includes any unavailable moments which have IsAccountedForInWorkLoad set to true
+                var shiftsThisWeek = _MyContext.PlannedShift.Where(p => p.EmployeeId == plannedShift.EmployeeId && p.StartTime >= startOfWeek && p.StartTime < startOfWeek.AddDays(7)).ToList();
+                var unavailableMomentsThisWeek = _MyContext.UnavailableMoment.Where(u => u.EmployeeId == plannedShift.EmployeeId && u.StartTime >= startOfWeek && u.StartTime < startOfWeek.AddDays(7) && u.IsAccountedForInWorkLoad == true).ToList();
+                var totalHoursThisWeek = shiftsThisWeek.Sum(s => s.EndTime.Subtract(s.StartTime).TotalHours) + unavailableMomentsThisWeek.Sum(u => u.EndTime.Subtract(u.StartTime).TotalHours);
+                if (totalHoursThisWeek + plannedShift.EndTime.Subtract(plannedShift.StartTime).TotalHours > plannedShift.Employee.MaxHoursInWeekAllowed)
                 {
-                    double totalHoursThisWeek = 0;
-                    foreach (var shift in shiftsThisWeek)
-                    {
-                        totalHoursThisWeek += (shift.EndTime - shift.StartTime).TotalHours;
-                    }
-                    if (totalHoursThisWeek + (plannedShift.EndTime - plannedShift.StartTime).TotalHours > plannedShift.Employee.MaxHoursInWeekAllowed)
-                    {
-                        ModelState.AddModelError("StartTime", "Medewerker heeft al te veel gewerkt deze week.");
-                        ModelState.AddModelError("EndTime", "Medewerker heeft al te veel gewerkt deze week.");
-                        return View(plannedShift);
-                    }
+                    ModelState.AddModelError("StartTime", "Medewerker heeft al te veel gewerkt deze week.");
+                    ModelState.AddModelError("EndTime", "Medewerker heeft al te veel gewerkt deze week.");
+                    return View(plannedShift);
                 }
-
 
 
                 _MyContext.PlannedShift.Add(plannedShift);

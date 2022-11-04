@@ -1,4 +1,6 @@
 using BumboPOC.Models.DomainModels;
+using BumboPOCData;
+using BumboServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace BumboPOC
@@ -13,12 +15,14 @@ namespace BumboPOC
             builder.Services.AddControllersWithViews();
             builder.Services.AddControllersWithViews();
             builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            builder.Services.AddScoped<IBumboEmployee, BumboEmployeeService>();
             builder.Services.AddDbContext<MyContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("BumboPOC"));
 
 
             });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

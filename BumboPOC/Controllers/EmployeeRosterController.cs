@@ -6,8 +6,8 @@ namespace BumboPOC.Controllers
 {
     public class EmployeeRosterController : Controller
     {
-        private readonly MyContext _MyContext;
-        public EmployeeRosterController(MyContext myContext)
+        private readonly MyDBContext _MyContext;
+        public EmployeeRosterController(MyDBContext myContext)
         {
             _MyContext = myContext;
         }

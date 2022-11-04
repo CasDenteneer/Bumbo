@@ -7,10 +7,10 @@ namespace BumboPOC.Controllers
 {
     public class PrognosisController : Controller
     {
-        private readonly MyContext _MyContext;
+        private readonly MyDBContext _MyContext;
  
         
-        public PrognosisController(MyContext myContext)
+        public PrognosisController(MyDBContext myContext)
         {
             _MyContext = myContext;
 
