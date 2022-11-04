@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace BumboPOC.Models
+namespace Bumbo.Models
 {
     public class PaginatedList<T> : List<T>
     {
@@ -11,16 +11,16 @@ namespace BumboPOC.Models
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
-            TotalPages = (int)System.Math.Ceiling(count / (double)pageSize);
+            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
-            this.AddRange(items);
+            AddRange(items);
         }
 
         public bool HasPreviousPage
         {
             get
             {
-                return (PageIndex > 1);
+                return PageIndex > 1;
             }
         }
 
@@ -28,7 +28,7 @@ namespace BumboPOC.Models
         {
             get
             {
-                return (PageIndex < TotalPages);
+                return PageIndex < TotalPages;
             }
         }
 

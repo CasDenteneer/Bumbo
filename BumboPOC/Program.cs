@@ -1,9 +1,8 @@
-using BumboPOC.Models.DomainModels;
-using BumboPOCData;
+using BumboData;
 using BumboServices;
 using Microsoft.EntityFrameworkCore;
 
-namespace BumboPOC
+namespace Bumbo
 {
     public class Program
     {

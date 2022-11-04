@@ -1,4 +1,4 @@
-﻿using BumboPOCData.Enums;
+﻿using BumboData.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BumboPOCData.DomainModels
+namespace BumboData.DomainModels
 {
     public class Departments
     {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace BumboPOCData.DomainModels
+namespace BumboData.DomainModels
 {
     public class PrognosisDay
     {

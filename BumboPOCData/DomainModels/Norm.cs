@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BumboPOCData.DomainModels
+namespace BumboData.DomainModels
 {
     public static class Norm
     {
@@ -29,18 +29,18 @@ namespace BumboPOCData.DomainModels
 
         public static double CalculateCassieDep(int amountOfCustomers)
         {
-            return MinutsTohHours(Norm.CassiereTimePerCustomerMinutes * amountOfCustomers);
+            return MinutsTohHours(CassiereTimePerCustomerMinutes * amountOfCustomers);
         }
 
         public static double CalculateFreshDep(int amountOfCustomers)
         {
-            return MinutsTohHours(Norm.FreshDepartmentTimePerCustomerMinutes * amountOfCustomers);
+            return MinutsTohHours(FreshDepartmentTimePerCustomerMinutes * amountOfCustomers);
         }
 
         public static double CalculateStockersDep(int amountOfCollies, int amountOfCustomers)
         {
-            return MinutsTohHours(Norm.StockingTimePerCollieMinutes * amountOfCollies +
-                Norm.CollieUnloadTimePerCollieMinutes * amountOfCollies);
+            return MinutsTohHours(StockingTimePerCollieMinutes * amountOfCollies +
+                CollieUnloadTimePerCollieMinutes * amountOfCollies);
         }
 
         public static double MinutsTohHours(double Minutes)

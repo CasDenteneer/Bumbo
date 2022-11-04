@@ -1,4 +1,4 @@
-namespace BumboPOC.Models
+namespace Bumbo.Models
 {
     public class ErrorViewModel
     {

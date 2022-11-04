@@ -21,12 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\BumboPOCData\BumboData.csproj" />
+    <ProjectReference Include="..\BumboServices\BumboServices.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BumboPOCData\BumboPOCData.csproj" />
-    <ProjectReference Include="..\BumboServices\BumboServices.csproj" />
+    <Folder Include="Models\ViewModels\" />
   </ItemGroup>
 
 </Project>

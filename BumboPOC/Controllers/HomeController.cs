@@ -1,8 +1,8 @@
-﻿using BumboPOC.Models;
+﻿using Bumbo.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace BumboPOC.Controllers
+namespace Bumbo.Controllers
 {
     public class HomeController : Controller
     {
@@ -20,7 +20,7 @@ namespace BumboPOC.Controllers
 
         public IActionResult Privacy()
         {
-           
+
             return View();
         }
 

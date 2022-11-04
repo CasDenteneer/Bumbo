@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BumboPOCData.Enums;
+using BumboData.Enums;
 
-namespace BumboPOCData.DomainModels
+namespace BumboData.DomainModels
 {
     public class PlannedShift
     {

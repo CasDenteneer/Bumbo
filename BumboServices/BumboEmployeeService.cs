@@ -1,6 +1,6 @@
 ﻿
-using BumboPOCData;
-using BumboPOCData.DomainModels;
+using BumboData;
+using BumboData.DomainModels;
 
 namespace BumboServices
 {

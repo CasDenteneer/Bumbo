@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BumboPOC", "BumboPOC\BumboPOC.csproj", "{072CA0A9-19DD-4D85-A03C-BD3B607DF1FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bumbo", "BumboPOC\Bumbo.csproj", "{072CA0A9-19DD-4D85-A03C-BD3B607DF1FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BumboPOCData", "BumboPOCData\BumboPOCData.csproj", "{1673BFD8-237D-4ACB-A19E-DD654F5F1F8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BumboData", "BumboPOCData\BumboData.csproj", "{1673BFD8-237D-4ACB-A19E-DD654F5F1F8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BumboServices", "BumboServices\BumboServices.csproj", "{6CF19B5B-4B32-421D-8488-AE900F9E5A91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BumboServices", "BumboServices\BumboServices.csproj", "{6CF19B5B-4B32-421D-8488-AE900F9E5A91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

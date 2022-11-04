@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using BumboPOCData.DomainModels;
+using BumboData.DomainModels;
 
-namespace BumboPOCData
+namespace BumboData
 {
     public class MyContext : DbContext
     {
